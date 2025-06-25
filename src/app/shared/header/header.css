@@ -1,4 +1,4 @@
-/* Estilos para el encabezado de Dota 2 */
+/* Estilos para el encabezado de Dota 2 (tus estilos actuales) */
 .dota2-header {
   background-color: #0d0d0d;
   color: #c0c0c0;
@@ -54,4 +54,45 @@
 .dropdown-arrow {
   margin-left: 5px;
   font-size: 10px;
+}
+
+/* ************************************************* */
+/* ¡NUEVOS ESTILOS PARA EL MENÚ DESPLEGABLE DE JUEGO! */
+/* ************************************************* */
+.dropdown {
+  position: relative; /* Para posicionar el menú desplegable relativo a este item */
+  display: inline-block; /* Para que ocupe solo el espacio necesario */
+  cursor: pointer; /* Indicar que es interactivo */
+}
+
+.dropdown-content {
+  display: none; /* Oculto por defecto */
+  position: absolute;
+  background-color: #222; /* Fondo oscuro para el submenú */
+  min-width: 200px; /* Ancho mínimo */
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.7); /* Sombra para resaltar */
+  z-index: 1; /* Para que aparezca por encima de otros elementos */
+  top: calc(100% + 5px); /* Posicionarlo justo debajo del enlace "JUEGO" */
+  left: 0; /* Alinear a la izquierda */
+  border-top: 2px solid #e06000; /* Borde superior naranja */
+}
+
+.dropdown-content a {
+  color: #c0c0c0; /* Color del texto de los enlaces del submenú */
+  padding: 12px 16px; /* Espaciado interno */
+  text-decoration: none;
+  display: block; /* Cada enlace en su propia línea */
+  text-transform: uppercase;
+  font-size: 13px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dropdown-content a:hover {
+  background-color: #333; /* Color de fondo al pasar el mouse */
+  color: #fff;
+}
+
+/* Esta clase se añade/quita con JavaScript para mostrar/ocultar el menú */
+.dropdown.show .dropdown-content {
+  display: block;
 }

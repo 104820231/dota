@@ -1,0 +1,21 @@
+.home-container {
+  max-width: 1200px;
+  margin: 50px auto;
+  padding: 20px;
+  text-align: center;
+  background-color: #1a1a1a;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
+}
+
+h1 {
+  font-size: 3em;
+  color: #e06000; /* Color naranja de Dota */
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+p {
+  font-size: 1.5em;
+  color: #ccc;
+}
