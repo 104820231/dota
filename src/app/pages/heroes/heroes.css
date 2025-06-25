@@ -1,15 +1,96 @@
-.page-content {
+.heroes-page-container {
   max-width: 1200px;
   margin: 50px auto;
   padding: 20px;
   text-align: center;
+  background-color: #1a1a1a; /* Fondo oscuro */
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
+  color: #c0c0c0; /* Color de texto general */
 }
-h2 {
-  font-size: 2.5em;
-  color: #fff;
+
+h1 {
+  font-size: 3em;
+  color: #e06000; /* Color naranja de Dota */
   margin-bottom: 20px;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 }
+
 p {
   font-size: 1.2em;
   color: #aaa;
+  margin-bottom: 40px;
+}
+
+/* Estilos para la sección de filtros (placeholder) */
+.filters-section {
+  display: flex;
+  justify-content: center; /* Centrar los filtros */
+  flex-wrap: wrap; /* Permitir que los filtros pasen a la siguiente línea si no hay espacio */
+  gap: 15px; /* Espacio entre los filtros */
+  background-color: #0d0d0d; /* Fondo un poco más oscuro que el contenedor */
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 30px;
+}
+
+.filter-placeholder,
+.search-placeholder {
+  background-color: #2a2a2a; /* Fondo para los placeholders de filtro */
+  color: #fff;
+  padding: 10px 15px;
+  border-radius: 3px;
+  font-size: 0.9em;
+  text-transform: uppercase;
+  min-width: 120px; /* Ancho mínimo para los filtros */
+  text-align: center;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3); /* Efecto de profundidad */
+}
+
+.search-placeholder {
+    flex-grow: 1; /* Permite que el de búsqueda crezca más */
+    max-width: 250px; /* Ancho máximo */
+}
+
+/* Estilos para la cuadrícula de héroes */
+.heroes-grid {
+  display: grid;
+  /* Define 6 columnas con el mismo ancho, y 20px de espacio entre filas y columnas */
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 20px; /* Espacio entre los "marcos" de los héroes */
+  padding: 20px 0;
+}
+
+/* Estilos para cada "marco" de héroe */
+.hero-card {
+  background-color: #222; /* Fondo de cada tarjeta de héroe */
+  border: 1px solid #333; /* Borde sutil */
+  border-radius: 5px;
+  padding: 15px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); /* Sombra para dar profundidad */
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Animación al pasar el mouse */
+  min-height: 180px; /* Altura mínima para que se vean como marcos */
+  display: flex; /* Para centrar contenido verticalmente */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-card:hover {
+  transform: translateY(-5px); /* Pequeño levantamiento al pasar el mouse */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.7); /* Sombra más pronunciada */
+  border-color: #e06000; /* Borde naranja al pasar el mouse */
+}
+
+.hero-name {
+  font-size: 1.3em;
+  font-weight: bold;
+  color: #fff; /* Nombre del héroe en blanco */
+  margin-bottom: 8px;
+}
+
+.hero-details {
+  font-size: 0.9em;
+  color: #aaa; /* Detalles en gris claro */
 }
