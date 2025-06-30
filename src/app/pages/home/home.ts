@@ -1,3 +1,4 @@
+// src/app/pages/home/home.ts
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 
@@ -8,6 +9,4 @@ import { Component } from '@angular/core';
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
-export class Home {
-
-}
+export class Home { }

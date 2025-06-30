@@ -1,15 +1,241 @@
-.page-content {
+.esports-container {
   max-width: 1200px;
-  margin: 50px auto; /* Espacio y centrado */
-  padding: 20px;
-  text-align: center; /* Centrar el texto */
+  margin: 50px auto;
+  padding: 20px 40px;
+  background-color: #1a1a1a;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
+  color: #c0c0c0;
+  line-height: 1.6;
+  text-align: center; /* Centra el contenido general */
 }
-h2 {
-  font-size: 2.5em;
-  color: #fff; /* Blanco */
+
+.tournament-header {
+  background-color: #113311; /* Un verde oscuro similar al de la imagen */
+  padding: 30px 0;
+  margin-bottom: 30px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative; /* Para posicionar el fondo del trofeo si es necesario */
+  overflow: hidden; /* Para contener la imagen de fondo */
+}
+
+.tournament-header h1 {
+  font-size: 3.5em;
+  color: #e06000;
+  margin-bottom: 10px;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.tournament-header > p { /* La frase "The International 2024 ha concluido" */
+  font-size: 1.2em;
+  color: #aaa;
   margin-bottom: 20px;
 }
-p {
-  font-size: 1.2em;
-  color: #aaa; /* Gris claro */
+
+.tournament-details {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  max-width: 900px;
+  margin-top: 20px;
+  align-items: flex-start;
+}
+
+.tournament-details .phases,
+.tournament-details .prize-pool {
+  text-align: left;
+  padding: 0 20px;
+}
+
+.tournament-details .phases p,
+.tournament-details .prize-pool p {
+  margin: 5px 0;
+  font-size: 1.1em;
+  color: #ddd;
+}
+
+.tournament-details .phases p:first-of-type {
+    font-weight: bold;
+    color: #e06000;
+}
+
+.tournament-details .prize-pool .amount {
+  font-size: 2.5em;
+  color: #00bcd4;
+  font-weight: bold;
+}
+
+.trophy-section {
+    text-align: center;
+    position: relative;
+}
+
+.trophy-section img {
+    width: 150px; /* Ajusta el tamaño según tu imagen */
+    height: auto;
+    display: block;
+    margin: 0 auto 10px auto;
+}
+
+.trophy-text {
+    font-family: 'Georgia', serif; /* O una fuente cursiva similar a la imagen */
+    font-size: 2.5em;
+    color: #eee;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+    margin-top: -15px; /* Ajusta para que quede cerca del trofeo */
+}
+
+.navigation-tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.navigation-tabs button {
+  background-color: #333;
+  color: #ccc;
+  border: none;
+  padding: 10px 20px;
+  margin: 0 5px;
+  cursor: pointer;
+  font-size: 1em;
+  border-radius: 3px;
+  transition: background-color 0.3s ease;
+}
+
+.navigation-tabs button:hover {
+  background-color: #555;
+}
+
+.navigation-tabs button.active {
+  background-color: #e06000;
+  color: #fff;
+}
+
+.match-section {
+  background-color: #222;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+}
+
+.match-section h2 {
+  font-size: 2em;
+  color: #00bcd4;
+  margin-bottom: 20px;
+}
+
+.match-teams {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.match-teams .team {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 30px;
+}
+
+.match-teams .team img {
+  width: 100px; /* Tamaño de los logos de los equipos */
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.match-teams .team h3 {
+  font-size: 1.5em;
+  color: #fff;
+}
+
+.match-teams span { /* El "VS" */
+  font-size: 2em;
+  font-weight: bold;
+  color: #e06000;
+  margin: 0 20px;
+}
+
+.game-tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.game-tabs button {
+  background-color: #333;
+  color: #ccc;
+  border: none;
+  padding: 8px 15px;
+  margin: 0 3px;
+  cursor: pointer;
+  font-size: 0.9em;
+  border-radius: 3px;
+  transition: background-color 0.3s ease;
+}
+
+.game-tabs button:hover {
+  background-color: #555;
+}
+
+.game-tabs button.active {
+  background-color: #e06000;
+  color: #fff;
+}
+
+.video-player {
+  background-color: #1a1a1a;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.video-player h3 {
+  font-size: 1.5em;
+  color: #fff;
+  margin-bottom: 15px;
+}
+
+.video-player iframe {
+  width: 100%;
+  max-width: 800px;
+  height: 450px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+}
+
+.video-player .watch-on-youtube {
+  font-size: 0.9em;
+  color: #00bcd4;
+  margin-bottom: 10px;
+}
+
+.video-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.video-controls select {
+    background-color: #333;
+    color: #fff;
+    border: 1px solid #555;
+    padding: 5px 10px;
+    border-radius: 3px;
+    font-size: 0.9em;
+}
+
+.video-controls button {
+    background-color: #e06000;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 0.9em;
 }

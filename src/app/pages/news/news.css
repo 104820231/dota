@@ -1,15 +1,46 @@
-.page-content {
-  max-width: 1200px;
-  margin: 50px auto; /* Espacio y centrado */
-  padding: 20px;
-  text-align: center; /* Centrar el texto */
+/* src/app/shared/header/header.css */
+.main-header {
+    background-color: #0d161a; /* Color de fondo oscuro */
+    padding: 10px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
 }
-h2 {
-  font-size: 2.5em;
-  color: #fff; /* Blanco */
-  margin-bottom: 20px;
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
 }
-p {
-  font-size: 1.2em;
-  color: #aaa; /* Gris claro */
+
+.logo a {
+    color: #e67e22; /* Color naranja para el logo */
+    font-size: 1.8em;
+    font-weight: bold;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.nav-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.nav-links li {
+    margin-left: 30px;
+}
+
+.nav-links a {
+    color: #f0f0f0; /* Color blanco para los enlaces */
+    text-decoration: none;
+    font-size: 1.1em;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: #e67e22; /* Cambio de color al pasar el ratón */
 }

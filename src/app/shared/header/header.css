@@ -1,98 +1,129 @@
-/* Estilos para el encabezado de Dota 2 (tus estilos actuales) */
-.dota2-header {
-  background-color: #0d0d0d;
-  color: #c0c0c0;
-  padding: 15px 0;
-  border-bottom: 1px solid #222;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+/* src/app/shared/header/header.css */
+.main-header {
+    background-color: #0d161a;
+    padding: 10px 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
-.header-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 30px;
 }
 
-.dota2-text {
-  font-size: 24px;
-  font-weight: bold;
-  letter-spacing: 2px;
-  color: #fff;
-  text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+.logo a {
+    color: #f38f1a;
+    font-size: 2.2em;
+    font-weight: bold;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    transition: color 0.3s ease;
 }
 
-.main-nav ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  gap: 30px;
+.logo a:hover {
+    color: #ff9900;
 }
 
-.main-nav li a {
-  text-decoration: none;
-  color: #c0c0c0;
-  font-size: 14px;
-  font-weight: bold;
-  padding: 5px 0;
-  transition: color 0.3s ease;
-  text-transform: uppercase;
+.nav-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: 30px;
 }
 
-.main-nav li a:hover {
-  color: #fff;
+.nav-links li {
+    position: relative;
 }
 
-.main-nav li a.active {
-  color: #fff;
-  border-bottom: 2px solid #e06000;
+.nav-links a {
+    color: #f0f0f0;
+    text-decoration: none;
+    font-size: 1.1em;
+    font-weight: bold;
+    padding: 15px 0;
+    display: block;
+    transition: color 0.3s ease;
 }
 
-.dropdown-arrow {
-  margin-left: 5px;
-  font-size: 10px;
+.nav-links a:hover,
+.nav-links a.active {
+    color: #e67e22;
 }
 
-/* ************************************************* */
-/* ¡NUEVOS ESTILOS PARA EL MENÚ DESPLEGABLE DE JUEGO! */
-/* ************************************************* */
-.dropdown {
-  position: relative; /* Para posicionar el menú desplegable relativo a este item */
-  display: inline-block; /* Para que ocupe solo el espacio necesario */
-  cursor: pointer; /* Indicar que es interactivo */
+/* Estilos para la indicación de despliegue */
+.dropdown-indicator {
+  margin-left: 5px; /* Espacio entre el texto y la flecha */
+  font-size: 0.8em; /* Tamaño más pequeño para la flecha */
+  /* Puedes añadir una transición aquí si luego agregas JS para rotar la flecha */
+  /* transform: rotate(0deg); */
+  /* transition: transform 0.3s ease; */
 }
 
+/* Si la clase `dropdown-content` se muestra con JS, puedes rotar la flecha */
+/* .dropdown:hover .dropdown-indicator {
+  transform: rotate(180deg);
+} */
+
+
+/* Estilos para el dropdown */
 .dropdown-content {
-  display: none; /* Oculto por defecto */
-  position: absolute;
-  background-color: #222; /* Fondo oscuro para el submenú */
-  min-width: 200px; /* Ancho mínimo */
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.7); /* Sombra para resaltar */
-  z-index: 1; /* Para que aparezca por encima de otros elementos */
-  top: calc(100% + 5px); /* Posicionarlo justo debajo del enlace "JUEGO" */
-  left: 0; /* Alinear a la izquierda */
-  border-top: 2px solid #e06000; /* Borde superior naranja */
+    display: none;
+    position: absolute;
+    background-color: #1a1a1a;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.7);
+    z-index: 1;
+    top: 100%;
+    left: 0;
+    border-top: 2px solid #e67e22;
 }
 
 .dropdown-content a {
-  color: #c0c0c0; /* Color del texto de los enlaces del submenú */
-  padding: 12px 16px; /* Espaciado interno */
-  text-decoration: none;
-  display: block; /* Cada enlace en su propia línea */
-  text-transform: uppercase;
-  font-size: 13px;
-  transition: background-color 0.3s ease, color 0.3s ease;
+    color: #f0f0f0;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+    font-size: 0.95em;
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .dropdown-content a:hover {
-  background-color: #333; /* Color de fondo al pasar el mouse */
-  color: #fff;
+    background-color: #2a2a2a;
+    color: #e67e22;
 }
 
-/* Esta clase se añade/quita con JavaScript para mostrar/ocultar el menú */
-.dropdown.show .dropdown-content {
-  display: block;
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.user-actions {
+    display: flex;
+    gap: 15px;
+}
+
+.user-actions button {
+    background-color: #e67e22;
+    color: #fff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.user-actions button:hover {
+    background-color: #d35400;
 }

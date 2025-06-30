@@ -1,36 +1,37 @@
-import { Component, Inject, PLATFORM_ID } from '@angular/core';
-import { CommonModule, isPlatformBrowser, DOCUMENT } from '@angular/common';
+// src/app/shared/header/header.ts
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-header',
   standalone: true,
   imports: [CommonModule, RouterModule],
-  templateUrl: './header.html',
+  template: `
+    <header class="main-header">
+      <nav class="navbar">
+        <div class="logo">
+          <a routerLink="/">DOTA 2</a>
+        </div>
+        <ul class="nav-links">
+          <li><a routerLink="/heroes">HÉROES</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropbtn">JUEGO <span class="dropdown-indicator">▼</span></a>
+            <div class="dropdown-content">
+              <a routerLink="/parches">PARCHES</a>
+              <a routerLink="/actualizaciones-del-juego">ACTUALIZACIONES DEL JUEGO</a>
+              </div>
+          </li>
+          <li><a routerLink="/noticias">NOTICIAS</a></li>
+          <li><a routerLink="/esports">E-SPORTS</a></li>
+        </ul>
+        <div class="user-actions">
+          <button>INICIAR SESIÓN</button>
+          <button>JUEGA GRATIS</button>
+        </div>
+      </nav>
+    </header>
+  `,
   styleUrls: ['./header.css']
 })
-export class Header {
-  constructor(
-    @Inject(PLATFORM_ID) private platformId: Object,
-    @Inject(DOCUMENT) private document: Document
-  ) {
-    if (isPlatformBrowser(this.platformId)) {
-      this.document.addEventListener('click', (event) => {
-        const dropdowns = this.document.querySelectorAll('.dropdown.show');
-        dropdowns.forEach(dropdown => {
-          if (!dropdown.contains(event.target as Node)) {
-            dropdown.classList.remove('show');
-          }
-        });
-      });
-    }
-  }
-
-  toggleDropdown(event: Event) {
-    event.stopPropagation();
-    const dropdownElement = (event.currentTarget as HTMLElement).closest('.dropdown');
-    if (dropdownElement) {
-      dropdownElement.classList.toggle('show');
-    }
-  }
-}
+export class Header {}

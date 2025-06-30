@@ -1,3 +1,4 @@
+// src/app/app.routes.ts
 import { Routes } from '@angular/router';
 import { Heroes } from './pages/heroes/heroes';
 import { News } from './pages/news/news';
@@ -7,13 +8,11 @@ import { Home } from './pages/home/home';
 import { GameUpdates } from './pages/game-updates/game-updates';
 
 export const routes: Routes = [
-  // Configura Home como la ruta por defecto
-  { path: '', component: Home, pathMatch: 'full' }, // ¡Ahora el inicio es Home!
+  { path: '', component: Home, pathMatch: 'full' },
   { path: 'heroes', component: Heroes },
   { path: 'noticias', component: News },
   { path: 'esports', component: Esports },
   { path: 'parches', component: Patches },
   { path: 'actualizaciones-del-juego', component: GameUpdates },
-  // La ruta '**' (cualquier otra cosa) también redirigirá al inicio (Home)
   { path: '**', redirectTo: '', pathMatch: 'full' }
 ];
