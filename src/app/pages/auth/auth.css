@@ -1,0 +1,126 @@
+/* src/app/pages/auth/auth.css */
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 60px); /* Ajusta para que el contenedor no se superponga con el header */
+  background-color: #0d0d0d;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.auth-card {
+  background-color: #2a2a2a;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  color: #f0f0f0;
+}
+
+h2 {
+  color: #e67e22; /* Color de título de Dota */
+  margin-bottom: 30px;
+  font-size: 1.8em;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #cccccc;
+}
+
+input[type="email"],
+input[type="password"] {
+  width: calc(100% - 20px); /* Ancho completo menos padding */
+  padding: 10px;
+  border: 1px solid #444;
+  border-radius: 4px;
+  background-color: #333;
+  color: #f0f0f0;
+  font-size: 1em;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus {
+  outline: none;
+  border-color: #e67e22;
+  box-shadow: 0 0 0 2px rgba(230, 126, 34, 0.3);
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background-color: #e67e22;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1.1em;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  position: relative; /* Para el spinner */
+}
+
+button:hover:not(:disabled) {
+  background-color: #d35400;
+}
+
+button:disabled {
+  background-color: #555;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.error-message {
+  background-color: #e74c3c; /* Rojo para errores */
+  color: white;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  font-size: 0.9em;
+}
+
+.switch-mode-text {
+  margin-top: 25px;
+  font-size: 0.95em;
+  color: #cccccc;
+}
+
+.switch-mode-text a {
+  color: #00bcd4; /* Azul claro para el enlace */
+  text-decoration: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.switch-mode-text a:hover {
+  color: #0097a7; /* Azul más oscuro al pasar el ratón */
+}
+
+/* Estilos básicos para un spinner (opcional) */
+.spinner {
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top: 3px solid #fff;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  animation: spin 1s linear infinite;
+  display: inline-block;
+  margin-left: 10px;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

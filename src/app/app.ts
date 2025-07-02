@@ -1,21 +1,21 @@
-// src/app/app.ts
+// src/app/app.component.ts
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet, RouterModule } from '@angular/router';
-import { Header } from './shared/header/header'; // Importa el Header
+import { RouterOutlet } from '@angular/router';
+import { Header } from './shared/header/header'; // Asegúrate de que la ruta sea correcta
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [
-    CommonModule,
-    RouterOutlet,
-    RouterModule,
-    Header // Importado porque se usa directamente en app.html
-  ],
-  templateUrl: './app.html',
-  styleUrls: ['./app.css']
+  imports: [CommonModule, RouterOutlet, Header],
+  template: `
+    <app-header></app-header>
+    <main>
+      <router-outlet></router-outlet>
+    </main>
+  `,
+  styleUrls: ['./app.component.css']
 })
-export class App {
+export class AppComponent { // <--- ¡Asegúrate de que se llama AppComponent!
   title = 'pagina-dota';
 }

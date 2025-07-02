@@ -1,21 +1,24 @@
-<header class="dota2-header">
-  <div class="header-content">
-    <div class="logo">
-      <a routerLink="" class="dota2-text">DOTA 2</a>
-    </div>
-    <nav class="main-nav">
-      <ul>
-        <li class="dropdown" (click)="toggleDropdown($event)">
-          <a href="javascript:void(0)">JUEGO <span class="dropdown-arrow">▼</span></a>
-          <div class="dropdown-content">
-            <a routerLink="/parches" routerLinkActive="active">PARCHES</a>
-            <a routerLink="/actualizaciones-del-juego" routerLinkActive="active">ACTUALIZACIONES DEL JUEGO</a>
-            </div>
-        </li>
-        <li><a routerLink="/heroes" routerLinkActive="active">HÉROES</a></li>
-        <li><a routerLink="/noticias" routerLinkActive="active">NOTICIAS</a></li>
-        <li><a routerLink="/esports" routerLinkActive="active">E-SPORTS</a></li>
-        </ul>
-    </nav>
+<header class="header">
+  <div class="logo">
+    <a routerLink="/">DOTA 2</a>
+  </div>
+  <nav class="main-nav">
+    <ul>
+      <li><a routerLink="/heroes">HÉROES</a></li>
+      <li class="dropdown">
+        <a href="#" class="dropbtn">JUEGO ▼</a>
+        <div class="dropdown-content">
+          <a routerLink="/news">NOTICIAS</a>
+          <a routerLink="/patches">PARCHES</a>
+          <a routerLink="/game-updates">ACTUALIZACIONES DEL JUEGO</a>
+        </div>
+      </li>
+      <li><a routerLink="/esports">E-SPORTS</a></li>
+    </ul>
+  </nav>
+  <div class="auth-buttons">
+    <button *ngIf="isAuthenticated" class="btn-primary" (click)="onLogout()">CERRAR SESIÓN</button>
+    <button *ngIf="!isAuthenticated" class="btn-primary" routerLink="/auth">INICIAR SESIÓN</button>
+    <button class="btn-secondary">JUEGA GRATIS</button>
   </div>
 </header>
