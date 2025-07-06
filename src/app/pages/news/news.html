@@ -1,4 +1,125 @@
-<div class="page-content">
-  <h2>Últimas Noticias de Dota 2</h2>
-  <p>Aquí encontrarás las últimas actualizaciones y novedades.</p>
+<!-- src/app/pages/news/news.html -->
+<!-- Contenedor principal de la sección de noticias/guías -->
+<div class="news-container">
+  <h1>Guías de Héroes</h1>
+
+  <!-- Sección para crear una nueva guía -->
+  <div class="create-guide-section">
+    <!-- Botón para alternar la visibilidad del formulario de creación -->
+    <button class="btn-create-guide" (click)="showCreateForm = !showCreateForm">
+      {{ showCreateForm ? 'Cancelar' : 'Crear Nueva Guía' }}
+    </button>
+
+    <!-- Formulario de creación de guía (visible solo si showCreateForm es true) -->
+    <div *ngIf="showCreateForm" class="guide-form-card">
+      <h2>Crear Nueva Guía</h2>
+      <form (ngSubmit)="onCreateGuide()">
+        <!-- Campo Nombre del Héroe -->
+        <div class="form-group">
+          <label for="heroName">Nombre del Héroe:</label>
+          <input type="text" id="heroName" [(ngModel)]="newGuide.heroName" name="heroName" required>
+        </div>
+        <!-- Campo Título de la Guía -->
+        <div class="form-group">
+          <label for="guideTitle">Título de la Guía:</label>
+          <input type="text" id="guideTitle" [(ngModel)]="newGuide.guideTitle" name="guideTitle" required>
+        </div>
+        <!-- Campo Descripción -->
+        <div class="form-group">
+          <label for="guideDescription">Descripción:</label>
+          <textarea id="guideDescription" [(ngModel)]="newGuide.guideDescription" name="guideDescription" rows="3"></textarea>
+        </div>
+        <!-- Campo Items Fase Temprana -->
+        <div class="form-group">
+          <label for="earlyGameItems">Items Fase Temprana:</label>
+          <textarea id="earlyGameItems" [(ngModel)]="newGuide.earlyGameItems" name="earlyGameItems" rows="2"></textarea>
+        </div>
+        <!-- Campo Items Fase Media -->
+        <div class="form-group">
+          <label for="midGameItems">Items Fase Media:</label>
+          <textarea id="midGameItems" [(ngModel)]="newGuide.midGameItems" name="midGameItems" rows="2"></textarea>
+        </div>
+        <!-- Campo Items Fase Final -->
+        <div class="form-group">
+          <label for="lateGameItems">Items Fase Final:</label>
+          <textarea id="lateGameItems" [(ngModel)]="newGuide.lateGameItems" name="lateGameItems" rows="2"></textarea>
+        </div>
+
+        <!-- Mensaje del formulario (éxito o error) -->
+        <div *ngIf="formMessage" class="form-message">
+          <p>{{ formMessage }}</p>
+        </div>
+
+        <!-- Botón de envío del formulario (deshabilitado durante la carga) -->
+        <button type="submit" [disabled]="isLoadingForm">
+          {{ isLoadingForm ? 'Guardando...' : 'Guardar Guía' }}
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <hr> <!-- Separador visual -->
+
+  <!-- Sección para mostrar TODAS las guías -->
+  <h2>Todas las Guías</h2>
+  <div class="guides-list">
+    <!-- Mensaje de carga mientras las guías se están obteniendo -->
+    <div *ngIf="(allHeroGuides$ | async) === null">
+      <p>Cargando guías...</p>
+    </div>
+    <!-- Mensaje si no hay guías disponibles -->
+    <div *ngIf="(allHeroGuides$ | async)?.length === 0">
+      <p>No hay guías disponibles todavía. ¡Sé el primero en crear una!</p>
+    </div>
+    <!-- Iteración sobre todas las guías para mostrarlas -->
+    <div *ngFor="let guide of allHeroGuides$ | async" class="guide-card">
+      <h3>{{ guide.guideTitle }} - {{ guide.heroName }}</h3>
+      <p class="guide-creator">Creado por: {{ guide.creatorEmail }}</p>
+      <p><strong>Descripción:</strong> {{ guide.guideDescription }}</p>
+      <div class="item-sections">
+        <div><strong>Fase Temprana:</strong> {{ guide.earlyGameItems }}</div>
+        <div><strong>Fase Media:</strong> {{ guide.midGameItems }}</div>
+        <div><strong>Fase Final:</strong> {{ guide.lateGameItems }}</div>
+      </div>
+      <!-- Formato de fecha usando pipe 'date' -->
+      <p class="guide-date">Fecha: {{ guide.createdAt.toDate() | date:'short' }}</p>
+
+      <!-- Botón de eliminar, visible solo si el usuario logueado es el creador de la guía -->
+      <div *ngIf="user && user.uid === guide.creatorId" class="guide-actions">
+        <button class="btn-delete" (click)="onDeleteGuide(guide.id!)">Eliminar</button>
+        <!-- Aquí iría el botón de editar más adelante -->
+      </div>
+    </div>
+  </div>
+
+  <!-- CAMBIO CLAVE AQUÍ: Usar ng-container para el hr y la sección "Mis Guías" -->
+  <ng-container *ngIf="user && (userHeroGuides$ | async) as userGuides">
+    <hr *ngIf="userGuides.length > 0"> <!-- El hr ahora usa userGuides.length -->
+
+    <h2>Mis Guías</h2>
+    <div class="guides-list">
+      <!-- Mensaje si el usuario no ha creado ninguna guía -->
+      <div *ngIf="userGuides.length === 0">
+        <p>Aún no has creado ninguna guía.</p>
+      </div>
+      <!-- Iteración sobre las guías del usuario actual -->
+      <div *ngFor="let guide of userGuides" class="guide-card">
+        <h3>{{ guide.guideTitle }} - {{ guide.heroName }}</h3>
+        <p class="guide-creator">Creado por: {{ guide.creatorEmail }}</p>
+        <p><strong>Descripción:</strong> {{ guide.guideDescription }}</p>
+        <div class="item-sections">
+          <div><strong>Fase Temprana:</strong> {{ guide.earlyGameItems }}</div>
+          <div><strong>Fase Media:</strong> {{ guide.midGameItems }}</div>
+          <div><strong>Fase Final:</strong> {{ guide.lateGameItems }}</div>
+        </div>
+        <p class="guide-date">Fecha: {{ guide.createdAt.toDate() | date:'short' }}</p>
+
+        <!-- Botón de eliminar (solo para las guías del propio usuario) -->
+        <div class="guide-actions">
+          <button class="btn-delete" (click)="onDeleteGuide(guide.id!)">Eliminar</button>
+          <!-- Aquí iría el botón de editar -->
+        </div>
+      </div>
+    </div>
+  </ng-container>
 </div>
