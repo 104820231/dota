@@ -1,63 +1,88 @@
+<!-- src/app/pages/heroes/heroes.html -->
 <div class="heroes-container">
   <!-- Sección de selección de héroe (visible si no hay un héroe específico seleccionado) -->
   <ng-container *ngIf="!hero">
     <h1>ELIGE A TU HÉROE</h1>
     <p class="hero-intro">Estrategias de la magia, feroces bestias, astutos pícaros... El conjunto de héroes de Dota 2 es enorme y de una diversidad ilimitada. Lanza increíbles hechizos y devastadoras habilidades definitivas en tu camino hacia la victoria.</p>
 
-    <!-- Barra de filtros y búsqueda (puedes implementarla más adelante) -->
+    <!-- Barra de filtros y búsqueda -->
     <div class="filter-bar">
-      <button class="filter-btn">FILTRAR HÉROES</button>
+      <!-- "FILTRAR HÉROES" como texto -->
+      <span class="filter-text">FILTRAR HÉROES</span>
+
       <div class="filter-group">
-        <button class="filter-icon">ATRIBUTO</button>
-        <button class="filter-icon">COMPLEJIDAD</button>
+        <!-- Desplegable de Atributo -->
+        <select [(ngModel)]="selectedAttribute" (ngModelChange)="onAttributeChange($event)" class="filter-select">
+          <option value="Todos">ATRIBUTO</option>
+          <option *ngFor="let attr of uniqueAttributes" [value]="attr">{{ attr | uppercase }}</option>
+        </select>
+
+        <!-- Desplegable de Complejidad -->
+        <select [(ngModel)]="selectedComplexity" (ngModelChange)="onComplexityChange($event)" class="filter-select">
+          <!-- CAMBIO CLAVE AQUÍ: Usar [ngValue] en lugar de [value] para números -->
+          <option [ngValue]="0">COMPLEJIDAD</option>
+          <option *ngFor="let comp of uniqueComplexities" [ngValue]="comp">
+            <ng-container *ngFor="let _ of [].constructor(comp)">⭐</ng-container>
+          </option>
+        </select>
       </div>
-      <input type="text" placeholder="Buscar...">
+      <!-- Input de búsqueda con ngModel y (ngModelChange) para filtro en tiempo real -->
+      <input type="text" placeholder="Buscar..." [(ngModel)]="searchTerm" (ngModelChange)="onSearchTermChange($event)">
       <button class="search-icon">🔍</button>
     </div>
 
     <!-- Cuadrícula de héroes -->
     <div class="hero-grid">
-      <!-- Usamos *ngFor para iterar sobre todos los héroes del servicio -->
-      <a *ngFor="let h of (heroService.getAllHeroes() | async)" [routerLink]="'/heroes/' + h.id" class="hero-grid-item">
-        <img [src]="h.imageUrl" [alt]="h.name">
-        <span>{{ h.name }}</span>
-      </a>
+      <!-- Usamos *ngIf para manejar el estado de carga y sin resultados -->
+      <ng-container *ngIf="(filteredHeroes$ | async) as heroesList">
+        <div *ngIf="heroesList.length === 0" class="no-heroes-found">
+          <p>No se encontraron héroes que coincidan con tu búsqueda.</p>
+        </div>
+        <a *ngFor="let h of heroesList" [routerLink]="'/heroes/' + h.id" class="hero-grid-item">
+          <img [src]="h.imageUrl" [alt]="h.name">
+          <span>{{ h.name }}</span>
+        </a>
+      </ng-container>
+      <div *ngIf="!(filteredHeroes$ | async)" class="loading-heroes">
+        <p>Cargando héroes...</p>
+      </div>
     </div>
   </ng-container>
 
   <!-- Sección de detalle del héroe (visible si un héroe específico está seleccionado) -->
   <ng-container *ngIf="hero">
-    <div class="hero-detail-header">
-      <a routerLink="/heroes" class="back-to-heroes">← Volver a Héroes</a>
-      <div class="hero-attributes">
-        <!-- Icono de atributo (puedes cambiarlo según el atributo del héroe) -->
-        <span class="attribute-icon" [ngClass]="{'icon-agility': hero.attribute === 'Agilidad', 'icon-strength': hero.attribute === 'Fuerza', 'icon-intelligence': hero.attribute === 'Inteligencia', 'icon-universal': hero.attribute === 'Universal'}">
-            <!-- Puedes usar un SVG o un emoji aquí, por ejemplo -->
-            <ng-container *ngIf="hero.attribute === 'Agilidad'">🌿</ng-container>
-            <ng-container *ngIf="hero.attribute === 'Fuerza'">💪</ng-container>
-            <ng-container *ngIf="hero.attribute === 'Inteligencia'">✨</ng-container>
-            <ng-container *ngIf="hero.attribute === 'Universal'">🌀</ng-container>
-        </span>
-        <h2>{{ hero.name | uppercase }}</h2> <!-- Usando pipe uppercase -->
+    <div class="hero-detail-container">
+      <!-- Video del héroe como fondo principal -->
+      <video [src]="hero.videoUrl" autoplay loop muted playsinline class="hero-video-bg"></video>
+
+      <div class="hero-content-overlay">
+        <a routerLink="/heroes" class="back-to-heroes">← Volver a Héroes</a>
+
+        <div class="hero-info-left">
+          <div class="hero-attributes">
+            <span class="attribute-icon" [ngClass]="{'icon-agility': hero.attribute === 'Agilidad', 'icon-strength': hero.attribute === 'Fuerza', 'icon-intelligence': hero.attribute === 'Inteligencia', 'icon-universal': hero.attribute === 'Universal'}">
+                <ng-container *ngIf="hero.attribute === 'Agilidad'">🌿</ng-container>
+                <ng-container *ngIf="hero.attribute === 'Fuerza'">💪</ng-container>
+                <ng-container *ngIf="hero.attribute === 'Inteligencia'">✨</ng-container>
+                <ng-container *ngIf="hero.attribute === 'Universal'">🌀</ng-container>
+            </span>
+            <h2 class="hero-name-title">{{ hero.name | uppercase }}</h2>
+          </div>
+          <p class="hero-tagline">{{ hero.description }}</p>
+          <div class="hero-details-section">
+            <h3>Detalles</h3>
+            <p>Tipo de ataque: <strong>{{ hero.attackType }}</strong></p>
+            <p>Complejidad:
+              <ng-container *ngFor="let _ of [].constructor(hero.complexity)">⭐</ng-container>
+            </p>
+          </div>
+        </div>
+
+        <div class="hero-image-portrait">
+          <!-- Imagen del retrato del héroe (la cabeza) -->
+          <img [src]="hero.imageUrl" [alt]="hero.name + ' portrait'" class="hero-portrait">
+        </div>
       </div>
-      <p class="hero-tagline">{{ hero.description }}</p>
-    </div>
-
-    <div class="hero-media">
-      <!-- Video del héroe -->
-      <video [src]="hero.videoUrl" autoplay loop muted playsinline class="hero-video"></video>
-      <!-- Imagen del héroe (superpuesta o al lado) -->
-      <img [src]="hero.imageUrl" [alt]="hero.name" class="hero-image">
-    </div>
-
-    <!-- Información adicional del héroe -->
-    <div class="hero-info-section">
-      <h3>Detalles</h3>
-      <p>Tipo de ataque: <strong>{{ hero.attackType }}</strong></p>
-      <p>Complejidad:
-        <ng-container *ngFor="let _ of [].constructor(hero.complexity)">⭐</ng-container> <!-- Mostrar estrellas según complejidad -->
-      </p>
-      <!-- Puedes añadir más detalles como habilidades, estadísticas, etc. -->
     </div>
   </ng-container>
 </div>

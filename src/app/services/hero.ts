@@ -1,14 +1,15 @@
+// src/app/services/hero.service.ts
+// Este servicio proporciona los datos de los héroes de Dota 2 y la lógica de filtrado.
+
 import { Injectable } from '@angular/core';
-import { Hero } from '../models/hero.model'; // Importa la interfaz Hero
-import { Observable, of } from 'rxjs'; // Importa Observable y 'of' para crear observables síncronos
+import { Hero } from '../models/hero.model';
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HeroService {
-  // Array de objetos Hero con datos estáticos.
-  // IMPORTANTE: Los 'imageUrl' y 'videoUrl' son placeholders.
-  // Debes reemplazarlos con las URLs reales de Steam CDN para cada héroe.
   private heroes: Hero[] = [
     // Héroes de Agilidad
     {
@@ -277,5 +278,63 @@ export class HeroService {
    */
   getAllHeroes(): Observable<Hero[]> {
     return of(this.heroes);
+  }
+
+  /**
+   * Obtiene una lista de héroes filtrados por término de búsqueda, atributo y complejidad.
+   * @param searchTerm Término de búsqueda por nombre (opcional).
+   * @param attribute Atributo principal (opcional, ej. 'Agilidad', 'Fuerza', 'Inteligencia', 'Universal').
+   * @param complexity Nivel de complejidad (opcional, 1, 2 o 3).
+   * @returns Un Observable que emite un array de héroes filtrados.
+   */
+  searchHeroes(searchTerm: string = '', attribute: string | null = null, complexity: number | null = null): Observable<Hero[]> {
+    let filteredHeroes = this.heroes;
+
+    // Filtrar por término de búsqueda
+    if (searchTerm && searchTerm.trim() !== '') {
+      const lowerCaseSearchTerm = searchTerm.toLowerCase();
+      filteredHeroes = filteredHeroes.filter(hero =>
+        hero.name.toLowerCase().includes(lowerCaseSearchTerm)
+      );
+    }
+
+    // Filtrar por atributo
+    if (attribute && attribute !== 'Todos') {
+      filteredHeroes = filteredHeroes.filter(hero =>
+        hero.attribute === attribute
+      );
+    }
+
+    // Filtrar por complejidad
+    // La condición es correcta: si complexity es null o 0, no filtra por complejidad.
+    if (complexity !== null && complexity !== 0) {
+      filteredHeroes = filteredHeroes.filter(hero =>
+        hero.complexity === complexity
+      );
+    }
+
+    return of(filteredHeroes);
+  }
+
+  /**
+   * Obtiene una lista de todos los atributos únicos de los héroes.
+   * @returns Un array de strings con los atributos únicos.
+   */
+  getUniqueAttributes(): string[] {
+    const attributes = new Set<string>();
+    this.heroes.forEach(hero => attributes.add(hero.attribute));
+    return ['Todos', ...Array.from(attributes).sort()]; // Añade 'Todos' y ordena alfabéticamente
+  }
+
+  /**
+   * Obtiene una lista de todos los niveles de complejidad únicos de los héroes.
+   * @returns Un array de números con los niveles de complejidad únicos.
+   */
+  getUniqueComplexities(): number[] {
+    const complexities = new Set<number>();
+    this.heroes.forEach(hero => complexities.add(hero.complexity));
+    // Asegurarse de que el 0 esté al principio y luego los demás números ordenados.
+    const sortedComplexities = Array.from(complexities).sort((a, b) => a - b);
+    return [0, ...sortedComplexities]; // Añade 0 y ordena numéricamente
   }
 }

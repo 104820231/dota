@@ -1,3 +1,4 @@
+/* src/app/pages/heroes/heroes.css */
 .heroes-container {
   padding: 40px 20px;
   max-width: 1400px;
@@ -38,21 +39,44 @@ h1 {
   flex-wrap: wrap; /* Permite que los elementos se envuelvan en pantallas pequeñas */
 }
 
-.filter-btn, .filter-icon, .search-icon {
+/* Estilo para el texto "FILTRAR HÉROES" */
+.filter-text {
+  color: #f0f0f0;
+  font-weight: bold;
+  font-size: 1.1em;
+  padding: 10px 15px; /* Para que tenga el mismo padding que los botones antiguos */
+}
+
+/* Estilos para los selectores desplegables */
+.filter-select {
   background-color: #333;
   color: #f0f0f0;
   border: 1px solid #444;
   padding: 10px 15px;
   border-radius: 5px;
-  cursor: pointer;
   font-weight: bold;
+  font-size: 1em;
+  cursor: pointer;
+  appearance: none; /* Elimina el estilo por defecto del sistema operativo */
+  -webkit-appearance: none; /* Para Safari */
+  -moz-appearance: none; /* Para Firefox */
+  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23f0f0f0%22%20d%3D%22M287%2C197.979L146.2%2C57.179L5.4%2C197.979H287z%22%2F%3E%3C%2Fsvg%3E'); /* Flecha personalizada */
+  background-repeat: no-repeat;
+  background-position: right 10px top 50%;
+  background-size: 12px auto;
   transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
-.filter-btn:hover, .filter-icon:hover, .search-icon:hover {
+.filter-select:hover {
   background-color: #e67e22;
   border-color: #e67e22;
 }
+
+.filter-select option {
+  background-color: #2a2a2a; /* Fondo para las opciones del desplegable */
+  color: #f0f0f0;
+}
+
 
 .filter-group {
   display: flex;
@@ -111,127 +135,254 @@ h1 {
   font-size: 1.1em;
 }
 
-/* Hero Detail Section */
-.hero-detail-header {
+/* Mensaje de no héroes encontrados */
+.no-heroes-found, .loading-heroes {
+  grid-column: 1 / -1; /* Ocupa todas las columnas */
   text-align: center;
-  margin-bottom: 40px;
+  font-size: 1.2em;
+  color: #ccc;
+  padding: 20px;
 }
 
+
+/* Hero Detail Section - Contenedor principal del detalle */
+.hero-detail-container {
+  position: relative; /* Para posicionar elementos internos */
+  width: 100%;
+  height: 70vh; /* Altura fija para la sección de medios */
+  overflow: hidden; /* Oculta el contenido que se desborda */
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+  display: flex; /* Para organizar el contenido superpuesto */
+  align-items: center; /* Centrar verticalmente el contenido */
+  justify-content: space-between; /* Espacio entre el texto y la imagen */
+  padding: 0 5%; /* Padding horizontal para el contenido */
+}
+
+/* Fondo de video/imagen */
+.hero-video-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Cubre el área sin distorsión */
+  z-index: 0; /* Asegura que esté en el fondo */
+  /* Animación de desplazamiento del video */
+  animation: slideBackground 30s linear infinite alternate; /* Desplazamiento lento */
+}
+
+/* Animación para el desplazamiento del fondo (video/imagen) */
+@keyframes slideBackground {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-10%); } /* Desplaza 10% a la izquierda */
+}
+
+/* Capa de contenido superpuesta al video/imagen de fondo */
+.hero-content-overlay {
+  position: relative; /* Para que el z-index funcione */
+  z-index: 1; /* Asegura que el contenido esté por encima del fondo */
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 5%; /* Espaciado interno para el contenido */
+  box-sizing: border-box;
+  /* CAMBIO: Asegurar que el contenido no se desborde horizontalmente */
+  overflow: hidden;
+}
+
+/* Botón "Volver a Héroes" */
 .back-to-heroes {
-  display: inline-block;
-  margin-bottom: 20px;
-  color: #00bcd4; /* Color azul claro */
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  color: #00bcd4;
   text-decoration: none;
   font-weight: bold;
   transition: color 0.3s ease;
+  z-index: 2; /* Asegura que esté por encima de todo */
 }
 
 .back-to-heroes:hover {
   color: #0097a7;
 }
 
+/* Información del héroe a la izquierda (nombre, atributos, descripción) */
+.hero-info-left {
+  flex: 0 0 55%; /* Darle un ancho fijo relativo para que no compita tanto */
+  text-align: left;
+  padding-right: 30px;
+  /* Animación de entrada para el texto */
+  animation: slideInLeft 1s ease-out forwards;
+  opacity: 0; /* Inicia invisible */
+  /* Asegurar que el texto se ajuste dentro del contenedor */
+  overflow-wrap: break-word; /* Rompe palabras largas */
+  word-break: break-word; /* Para compatibilidad con algunos navegadores */
+}
+
+/* Animación para el texto que entra desde la izquierda */
+@keyframes slideInLeft {
+  0% { transform: translateX(-100px); opacity: 0; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
 .hero-attributes {
   display: flex;
-  justify-content: center;
   align-items: center;
   gap: 15px;
   margin-bottom: 10px;
 }
 
 .attribute-icon {
-  font-size: 2em; /* Tamaño del emoji o icono */
+  font-size: 2.5em; /* Tamaño del emoji o icono */
   color: #e67e22; /* Color de acento */
 }
 
-.hero-attributes h2 {
+.hero-name-title {
   color: #e67e22;
-  font-size: 3em;
+  font-size: 3.5em; /* Reducir tamaño de fuente para nombres largos */
   margin: 0;
-  border-bottom: none; /* Eliminar borde inferior de h2 aquí */
+  border-bottom: none;
   padding-bottom: 0;
+  line-height: 1; /* Ajustar altura de línea */
+  /* Asegurar que el nombre se ajuste */
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .hero-tagline {
   font-size: 1.2em;
   color: #ccc;
-  max-width: 800px;
-  margin: 0 auto 20px;
-}
-
-.hero-description {
-  font-size: 1em;
-  color: #aaa;
-  max-width: 800px;
-  margin: 0 auto 30px;
+  margin: 0 0 20px 0;
   line-height: 1.6;
+  /* Asegurar que la descripción se ajuste */
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
-.hero-media {
-  position: relative;
-  width: 100%;
-  padding-top: 56.25%; /* 16:9 Aspect Ratio (height / width * 100%) */
-  background-color: #000; /* Fondo negro para el video */
+.hero-details-section {
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente para detalles */
+  padding: 20px;
   border-radius: 8px;
-  overflow: hidden;
-  margin-bottom: 40px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+  margin-top: 20px;
 }
 
-.hero-video {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* Asegura que el video cubra el área sin distorsión */
-}
-
-.hero-image {
-  position: absolute;
-  bottom: 0; /* Posicionar la imagen en la parte inferior del video */
-  right: 0;
-  width: 50%; /* Ajusta el tamaño de la imagen superpuesta */
-  height: auto;
-  z-index: 1; /* Asegura que la imagen esté por encima del video */
-  /* Puedes ajustar la posición con 'right' y 'bottom' */
-  transform: translateX(10%); /* Ajuste para que la imagen no esté pegada al borde */
-  /* Puedes añadir un filtro o sombra para que se integre mejor */
-}
-
-.hero-info-section {
-  background-color: #1a1a1a;
-  padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-  margin-top: 30px;
-  text-align: left;
-}
-
-.hero-info-section h3 {
-  color: #e67e22;
-  font-size: 1.8em;
-  margin-bottom: 20px;
+.hero-details-section h3 {
+  color: #00bcd4;
+  font-size: 1.5em;
+  margin-bottom: 15px;
   border-bottom: 1px solid #444;
-  padding-bottom: 10px;
+  padding-bottom: 8px;
 }
 
-.hero-info-section p {
-  font-size: 1.1em;
-  margin-bottom: 10px;
+.hero-details-section p {
+  font-size: 1em;
+  margin-bottom: 8px;
   color: #ccc;
 }
 
-.hero-info-section strong {
+.hero-details-section strong {
   color: #f0f0f0;
 }
 
-/* Estrellas de complejidad */
-.hero-info-section p ng-container {
-  color: gold; /* Color para las estrellas */
+.hero-details-section p ng-container {
+  color: gold;
   font-size: 1.2em;
 }
 
+/* Imagen del retrato del héroe (la cabeza) */
+.hero-image-portrait {
+  flex: 0 0 40%; /* Darle un ancho fijo relativo */
+  display: flex;
+  justify-content: flex-end; /* Alinear a la derecha */
+  align-items: flex-end; /* Alinear a la parte inferior */
+  height: 100%; /* Ocupa la altura completa del contenedor */
+  position: relative;
+  /* Animación de entrada para el retrato */
+  animation: slideInRight 1s ease-out forwards;
+  opacity: 0; /* Inicia invisible */
+}
+
+/* Animación para el retrato que entra desde la derecha */
+@keyframes slideInRight {
+  0% { transform: translateX(100px); opacity: 0; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+.hero-portrait {
+  max-height: 100%; /* No desbordar tanto */
+  width: auto;
+  object-fit: contain; /* Asegura que la imagen se ajuste sin recortarse */
+  transform: translateY(0); /* Eliminar el ajuste vertical inicial */
+  filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.7)); /* Sombra para que destaque */
+  object-position: center bottom; /* Intenta centrar horizontalmente y alinear abajo */
+}
+
+
 /* Media Queries para responsividad */
+@media (max-width: 1024px) {
+  .hero-detail-container {
+    height: auto; /* Altura automática para que se adapte al contenido en móviles */
+    min-height: 70vh; /* Asegurar una altura mínima */
+    flex-direction: column; /* Apilar elementos verticalmente */
+    padding: 20px;
+    justify-content: flex-start; /* Alinear arriba */
+  }
+
+  .hero-content-overlay {
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .hero-info-left {
+    max-width: 100%; /* Ocupa todo el ancho */
+    padding-right: 0;
+    text-align: center; /* Centrar texto */
+    order: 2; /* Poner el texto debajo de la imagen en móviles */
+    flex: 0 0 auto; /* Permitir que el contenido defina su altura */
+  }
+
+  .hero-name-title {
+    font-size: 2.5em; /* Reducir aún más el tamaño de fuente en móviles */
+  }
+
+  .hero-tagline {
+    font-size: 1.1em;
+  }
+
+  .hero-image-portrait {
+    max-height: 40vh; /* Reducir tamaño del retrato en móviles */
+    width: 100%; /* Ocupar todo el ancho disponible */
+    justify-content: center; /* Centrar horizontalmente */
+    align-items: center; /* Centrar verticalmente */
+    margin-bottom: 20px;
+    order: 1; /* Poner la imagen arriba del texto en móviles */
+    transform: translateY(0); /* Resetear ajuste */
+    flex: 0 0 auto; /* Permitir que el contenido defina su altura */
+  }
+
+  .hero-portrait {
+    max-height: 100%;
+    width: auto; /* Asegurar que la imagen no se estire */
+    transform: translateY(0); /* Resetear ajuste */
+    object-position: center center; /* Centrar en móviles */
+  }
+
+  .back-to-heroes {
+    position: static; /* Quitar posicionamiento absoluto */
+    margin-bottom: 15px;
+    text-align: left;
+    width: 100%;
+  }
+
+  .hero-details-section {
+    width: 100%; /* Ocupa todo el ancho */
+    box-sizing: border-box;
+  }
+}
+
 @media (max-width: 768px) {
   .heroes-container {
     padding: 20px 10px;
