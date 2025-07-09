@@ -1,4 +1,3 @@
-// src/app/app.routes.ts
 import { Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth-guard'; // Importa tu AuthGuard
 
@@ -9,13 +8,19 @@ export const routes: Routes = [
     title: 'Home Page',
   },
   {
-    path: 'heroes',
+    path: 'heroes', // Ruta para la lista de héroes
     loadComponent: () => import('./pages/heroes/heroes').then(m => m.Heroes),
     title: 'Heroes Page',
     canActivate: [AuthGuard] // Protege esta ruta
   },
   {
-    path: 'news', // Asegúrate de que tus componentes se llamen 'news' si usas esta ruta
+    path: 'heroes/:id', // Ruta para el detalle de un héroe específico
+    loadComponent: () => import('./pages/heroes/heroes').then(m => m.Heroes), // Usa el mismo componente Heroes
+    title: 'Hero Detail Page',
+    canActivate: [AuthGuard] // Protege esta ruta
+  },
+  {
+    path: 'news',
     loadComponent: () => import('./pages/news/news').then(m => m.News),
     title: 'News Page',
     canActivate: [AuthGuard] // Protege esta ruta

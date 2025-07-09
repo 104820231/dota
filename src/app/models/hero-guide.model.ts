@@ -15,3 +15,4 @@
       updatedAt?: Timestamp; // <-- ¡Cambiado a Timestamp! (opcional)
     }
     
+    

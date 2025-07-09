@@ -1,113 +1,63 @@
-<div class="heroes-page-container">
-  <h1>ELIGE A TU HÉROE</h1>
-  <p>Estrategias de la magia, feroces bestias, astutos pícaros... El conjunto de héroes de Dota 2 es
-     enorme y de una diversidad ilimitada. Lanza increíbles hechizos y devastadoras habilidades
-     definitivas en tu camino hacia la victoria.
-  </p>
+<div class="heroes-container">
+  <!-- Sección de selección de héroe (visible si no hay un héroe específico seleccionado) -->
+  <ng-container *ngIf="!hero">
+    <h1>ELIGE A TU HÉROE</h1>
+    <p class="hero-intro">Estrategias de la magia, feroces bestias, astutos pícaros... El conjunto de héroes de Dota 2 es enorme y de una diversidad ilimitada. Lanza increíbles hechizos y devastadoras habilidades definitivas en tu camino hacia la victoria.</p>
 
-  <div class="filters-section">
-    <div class="filter-placeholder">FILTRAR HÉROES</div>
-    <div class="filter-placeholder">ATRIBUTO</div>
-    <div class="filter-placeholder">COMPLEJIDAD</div>
-    <div class="search-placeholder">Búsqueda</div>
-  </div>
+    <!-- Barra de filtros y búsqueda (puedes implementarla más adelante) -->
+    <div class="filter-bar">
+      <button class="filter-btn">FILTRAR HÉROES</button>
+      <div class="filter-group">
+        <button class="filter-icon">ATRIBUTO</button>
+        <button class="filter-icon">COMPLEJIDAD</button>
+      </div>
+      <input type="text" placeholder="Buscar...">
+      <button class="search-icon">🔍</button>
+    </div>
 
-  <div class="heroes-grid">
-    <div class="hero-card">
-      <div class="hero-name">Anti-Mage</div>
-      <div class="hero-details">Detalles Héroe 1</div>
+    <!-- Cuadrícula de héroes -->
+    <div class="hero-grid">
+      <!-- Usamos *ngFor para iterar sobre todos los héroes del servicio -->
+      <a *ngFor="let h of (heroService.getAllHeroes() | async)" [routerLink]="'/heroes/' + h.id" class="hero-grid-item">
+        <img [src]="h.imageUrl" [alt]="h.name">
+        <span>{{ h.name }}</span>
+      </a>
     </div>
-    <div class="hero-card">
-      <div class="hero-name">Héroe 2</div>
-      <div class="hero-details">Detalles Héroe 2</div>
+  </ng-container>
+
+  <!-- Sección de detalle del héroe (visible si un héroe específico está seleccionado) -->
+  <ng-container *ngIf="hero">
+    <div class="hero-detail-header">
+      <a routerLink="/heroes" class="back-to-heroes">← Volver a Héroes</a>
+      <div class="hero-attributes">
+        <!-- Icono de atributo (puedes cambiarlo según el atributo del héroe) -->
+        <span class="attribute-icon" [ngClass]="{'icon-agility': hero.attribute === 'Agilidad', 'icon-strength': hero.attribute === 'Fuerza', 'icon-intelligence': hero.attribute === 'Inteligencia', 'icon-universal': hero.attribute === 'Universal'}">
+            <!-- Puedes usar un SVG o un emoji aquí, por ejemplo -->
+            <ng-container *ngIf="hero.attribute === 'Agilidad'">🌿</ng-container>
+            <ng-container *ngIf="hero.attribute === 'Fuerza'">💪</ng-container>
+            <ng-container *ngIf="hero.attribute === 'Inteligencia'">✨</ng-container>
+            <ng-container *ngIf="hero.attribute === 'Universal'">🌀</ng-container>
+        </span>
+        <h2>{{ hero.name | uppercase }}</h2> <!-- Usando pipe uppercase -->
+      </div>
+      <p class="hero-tagline">{{ hero.description }}</p>
     </div>
-    <div class="hero-card">
-      <div class="hero-name">Héroe 3</div>
-      <div class="hero-details">Detalles Héroe 3</div>
+
+    <div class="hero-media">
+      <!-- Video del héroe -->
+      <video [src]="hero.videoUrl" autoplay loop muted playsinline class="hero-video"></video>
+      <!-- Imagen del héroe (superpuesta o al lado) -->
+      <img [src]="hero.imageUrl" [alt]="hero.name" class="hero-image">
     </div>
-    <div class="hero-card">
-      <div class="hero-name">Héroe 4</div>
-      <div class="hero-details">Detalles Héroe 4</div>
+
+    <!-- Información adicional del héroe -->
+    <div class="hero-info-section">
+      <h3>Detalles</h3>
+      <p>Tipo de ataque: <strong>{{ hero.attackType }}</strong></p>
+      <p>Complejidad:
+        <ng-container *ngFor="let _ of [].constructor(hero.complexity)">⭐</ng-container> <!-- Mostrar estrellas según complejidad -->
+      </p>
+      <!-- Puedes añadir más detalles como habilidades, estadísticas, etc. -->
     </div>
-    <div class="hero-card">
-      <div class="hero-name">Héroe 5</div>
-      <div class="hero-details">Detalles Héroe 5</div>
-    </div>
-    <div class="hero-card">
-      <div class="hero-name">Héroe 6</div>
-      <div class="hero-details">Detalles Héroe 6</div>
-    </div>
-    <div class="hero-card">
-      <div class="hero-name">Héroe 7</div>
-      <div class="hero-details">Detalles Héroe 7</div>
-    </div>
-    <div class="hero-card">
-      <div class="hero-name">Héroe 8</div>
-      <div class="hero-details">Detalles Héroe 8</div>
-    </div>
-    <div class="hero-card">
-      <div class="hero-name">Héroe 9</div>
-      <div class="hero-details">Detalles Héroe 9</div>
-    </div>
-    <div class="hero-card">
-      <div class="hero-name">Héroe 10</div>
-      <div class="hero-details">Detalles Héroe 10</div>
-    </div>
-    <div class="hero-card">
-      <div class="hero-name">Héroe 11</div>
-      <div class="hero-details">Detalles Héroe 11</div>
-    </div>
-    <div class="hero-card">
-      <div class="hero-name">Héroe 12</div>
-      <div class="hero-details">Detalles Héroe 12</div>
-    </div>
-    <div class="hero-card">
-      <div class="hero-name">Héroe 13</div>
-      <div class="hero-details">Detalles Héroe 13</div>
-    </div>
-    <div class="hero-card">
-      <div class="hero-name">Héroe 14</div>
-      <div class="hero-details">Detalles Héroe 14</div>
-    </div>
-    <div class="hero-card">
-      <div class="hero-name">Héroe 15</div>
-      <div class="hero-details">Detalles Héroe 15</div>
-    </div>
-    <div class="hero-card">
-      <div class="hero-name">Héroe 16</div>
-      <div class="hero-details">Detalles Héroe 16</div>
-    </div>
-    <div class="hero-card">
-      <div class="hero-name">Héroe 17</div>
-      <div class="hero-details">Detalles Héroe 17</div>
-    </div>
-    <div class="hero-card">
-      <div class="hero-name">Héroe 18</div>
-      <div class="hero-details">Detalles Héroe 18</div>
-    </div>
-    <div class="hero-card">
-      <div class="hero-name">Héroe 19</div>
-      <div class="hero-details">Detalles Héroe 19</div>
-    </div>
-    <div class="hero-card">
-      <div class="hero-name">Héroe 20</div>
-      <div class="hero-details">Detalles Héroe 20</div>
-    </div>
-    <div class="hero-card">
-      <div class="hero-name">Héroe 21</div>
-      <div class="hero-details">Detalles Héroe 21</div>
-    </div>
-    <div class="hero-card">
-      <div class="hero-name">Héroe 22</div>
-      <div class="hero-details">Detalles Héroe 22</div>
-    </div>
-    <div class="hero-card">
-      <div class="hero-name">Héroe 23</div>
-      <div class="hero-details">Detalles Héroe 23</div>
-    </div>
-    <div class="hero-card">
-      <div class="hero-name">Héroe 24</div>
-      <div class="hero-details">Detalles Héroe 24</div>
-    </div>
-  </div>
+  </ng-container>
 </div>
