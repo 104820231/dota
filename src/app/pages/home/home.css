@@ -1,21 +1,443 @@
+/* src/app/pages/home/home.css */
+
 .home-container {
-  max-width: 1200px;
-  margin: 50px auto;
-  padding: 20px;
-  text-align: center;
-  background-color: #1a1a1a;
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 60px); /* Ocupa toda la altura de la ventana menos el header */
+  overflow: hidden;
+  display: flex; /* Usamos flex para centrar el content-overlay */
+  align-items: center;
+  justify-content: center;
+  background-color: #000;
+  color: #f0f0f0;
+}
+
+.background-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: 0;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+}
+
+.content-overlay {
+  position: absolute; /* Posiciona el overlay de contenido sobre el video */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  display: flex;
+  align-items: center; /* Centrar verticalmente el main-content-wrapper */
+  justify-content: flex-start; /* Alinea el contenido a la izquierda */
+  padding-left: 5%; /* Espaciado desde el borde izquierdo */
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 50%); /* Degradado para legibilidad */
+}
+
+.main-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Alinea la cita y el botón a la izquierda */
+  gap: 30px;
+  max-width: 600px; /* Limita el ancho del contenido principal */
+  padding: 20px; /* Padding interno para el wrapper */
+  box-sizing: border-box;
+}
+
+.quote-section {
+  background-color: rgba(0, 0, 0, 0.6); /* Fondo semitransparente para la cita */
+  padding: 20px 30px;
   border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
+  /* max-width: 600px; Ya controlado por main-content-wrapper */
 }
 
-h1 {
-  font-size: 3em;
-  color: #e06000; /* Color naranja de Dota */
-  margin-bottom: 20px;
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+/* Animación para la cita */
+.animated-quote {
+  opacity: 0;
+  transform: translateX(-100px);
+  animation: slideInQuote 1s ease-out forwards;
+  animation-delay: 0.5s;
 }
 
-p {
-  font-size: 1.5em;
+@keyframes slideInQuote {
+  0% {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.quote-text {
+  font-size: 2.5em;
+  font-weight: bold;
+  line-height: 1.2;
+  margin-bottom: 10px;
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.quote-source {
+  font-size: 1.2em;
   color: #ccc;
+  font-style: italic;
+}
+
+.play-button-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.play-button-link {
+  text-decoration: none;
+  display: inline-block;
+}
+
+.play-button {
+  background-color: #e67e22;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 15px 30px;
+  font-size: 1.5em;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.play-button:hover {
+  background-color: #d35400;
+  transform: translateY(-3px);
+}
+
+.steam-icon {
+  width: 30px;
+  height: auto;
+}
+
+.play-subtext {
+  font-size: 0.9em;
+  color: #ccc;
+  margin-top: 5px;
+}
+
+/* --- Nuevas Secciones --- */
+section {
+  width: 100%;
+  min-height: 500px; /* Altura mínima para las secciones */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  background-position: center;
+  color: #f0f0f0;
+  text-align: center;
+  padding: 80px 20px; /* Padding para el contenido dentro de la sección */
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden; /* Asegura que las imágenes de fondo no se desborden */
+}
+
+.section-content-wrapper {
+  max-width: 800px;
+  padding: 30px;
+  background-color: rgba(0, 0, 0, 0.7); /* Fondo semitransparente para el texto */
+  border-radius: 8px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+  z-index: 1; /* Asegura que el contenido esté sobre la imagen de fondo */
+}
+
+.section-title {
+  font-size: 3em;
+  color: #e67e22;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.section-description {
+  font-size: 1.2em;
+  line-height: 1.6;
+  color: #ccc;
+  margin-bottom: 30px;
+}
+
+.button-primary {
+  display: inline-block;
+  background-color: #00bcd4; /* Color azul para botones de acción */
+  color: #fff;
+  text-decoration: none;
+  padding: 15px 30px;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 1.1em;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+.button-primary:hover {
+  background-color: #0097a7;
+  transform: translateY(-2px);
+}
+
+/* Sección 2: Join the Battle of the Ancients */
+.section-battle-ancients {
+  background-image: url('https://cdn.akamai.steamstatic.com/apps/dota2/images/dota_react//home/radiant_dire5.jpg');
+  background-attachment: fixed; /* Efecto parallax */
+}
+
+/* Sección 3: Who Will You Choose? */
+.section-who-choose {
+  background-image: url('https://cdn.akamai.steamstatic.com/apps/dota2/images/dota_react//home/battle_mobile.jpg'); /* Usando la imagen móvil como base */
+  background-attachment: fixed; /* Efecto parallax */
+}
+
+/* Sección 4: Hero Grid (Deslizante) */
+.section-hero-grid {
+  background-color: #1a1a1a; /* Fondo oscuro sólido */
+  padding: 60px 0; /* Padding vertical, 0 horizontal para que el slider ocupe todo el ancho */
+  overflow: hidden; /* Esencial para el slider */
+}
+
+.hero-grid-rows-container { /* Nuevo contenedor para las filas */
+  display: flex;
+  flex-direction: column; /* Apila las filas verticalmente */
+  width: 100%;
+  overflow: hidden; /* Oculta el desbordamiento horizontal de las pistas */
+}
+
+.hero-grid-track {
+  display: flex; /* Usa flexbox para mantener los elementos en una fila */
+  flex-wrap: nowrap; /* Evita que los elementos se envuelvan */
+  width: fit-content; /* Permite que el ancho se ajuste al contenido (importante para la animación) */
+  animation-duration: 60s; /* Duración por defecto */
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-play-state: running; /* Asegura que la animación se ejecute */
+  padding: 10px 0; /* Espacio vertical entre filas */
+}
+
+/* Animaciones de desplazamiento */
+@keyframes slideHeroesLeft {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); } /* Desplaza la mitad del ancho total (por la duplicación) */
+}
+
+@keyframes slideHeroesRight {
+  0% { transform: translateX(-50%); } /* Inicia a la mitad del desplazamiento */
+  100% { transform: translateX(0%); } /* Termina sin desplazamiento */
+}
+
+/* Asignar animaciones a cada pista */
+.hero-grid-track.track-1 {
+  animation-name: slideHeroesLeft;
+  animation-duration: 50s; /* Velocidad diferente */
+}
+
+.hero-grid-track.track-2 {
+  animation-name: slideHeroesRight;
+  animation-duration: 55s; /* Velocidad diferente */
+  animation-delay: -2s; /* Iniciar con un pequeño retraso/adelanto */
+}
+
+.hero-grid-track.track-3 {
+  animation-name: slideHeroesLeft;
+  animation-duration: 60s;
+  animation-delay: -1s;
+}
+
+.hero-grid-track.track-4 {
+  animation-name: slideHeroesRight;
+  animation-duration: 48s; /* Otra velocidad diferente */
+  animation-delay: -3s;
+}
+
+
+.hero-grid-item-home {
+  flex-shrink: 0; /* Evita que los elementos se encojan */
+  width: 120px; /* Ancho de cada imagen de héroe */
+  height: 68px; /* Altura de cada imagen de héroe (proporción 16:9 aprox) */
+  margin: 0 5px; /* Espacio entre imágenes */
+  overflow: hidden;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  transition: transform 0.2s ease;
+  vertical-align: middle; /* Alinea las imágenes si tienen diferentes alturas */
+}
+
+.hero-grid-item-home img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Asegura que la imagen cubra el área */
+  display: block;
+}
+
+.hero-grid-item-home:hover {
+  transform: scale(1.1); /* Efecto de zoom al pasar el ratón */
+  box-shadow: 0 5px 15px rgba(230, 126, 34, 0.5);
+}
+
+
+/* --- Efecto de aparición al hacer scroll (Scroll Reveal) --- */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(50px); /* Inicia un poco abajo */
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.scroll-reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* Media Queries para responsividad */
+@media (max-width: 1024px) {
+  .content-overlay {
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0) 100%);
+    padding-left: 3%;
+  }
+
+  .main-content-wrapper {
+    max-width: 500px;
+    padding: 15px;
+  }
+
+  .quote-text {
+    font-size: 2em;
+  }
+
+  .play-button {
+    font-size: 1.3em;
+    padding: 12px 25px;
+  }
+
+  /* Nuevas secciones en tablets */
+  section {
+    padding: 60px 15px;
+  }
+
+  .section-title {
+    font-size: 2.5em;
+  }
+
+  .section-description {
+    font-size: 1.1em;
+  }
+
+  /* Slider de héroes en tablets */
+  .hero-grid-item-home {
+    width: 100px; /* Reducir ancho en tablets */
+    height: 56px;
+  }
+}
+
+@media (max-width: 768px) {
+  .home-container {
+    height: auto; /* Permite que la altura se ajuste al contenido */
+    min-height: calc(100vh - 60px); /* Asegura que siempre ocupe al menos la altura de la ventana menos el encabezado */
+    padding: 0;
+  }
+
+  .content-overlay {
+    position: absolute; /* Mantiene la posición absoluta para cubrir el video */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; /* Hace que llene el home-container */
+    flex-direction: column; /* Apila el contenido verticalmente */
+    justify-content: center; /* Centra el contenido verticalmente */
+    align-items: center; /* Centra el contenido horizontalmente */
+    padding: 20px; /* Padding general */
+    background: rgba(0, 0, 0, 0.7); /* Fondo más sólido para legibilidad en móvil */
+    text-align: center; /* Centra el texto */
+  }
+
+  .main-content-wrapper {
+    max-width: 100%; /* Ocupa todo el ancho disponible */
+    align-items: center; /* Centrar elementos */
+    gap: 20px;
+    padding: 0; /* Eliminar padding interno */
+  }
+
+  .quote-section {
+    padding: 15px 20px;
+  }
+
+  .quote-text {
+    font-size: 1.8em;
+  }
+
+  .quote-source {
+    font-size: 1em;
+  }
+
+  .play-button-section {
+    align-items: center;
+  }
+
+  .play-button {
+    font-size: 1.2em;
+    padding: 12px 25px;
+  }
+
+  .steam-icon {
+    width: 25px;
+  }
+
+  .play-subtext {
+    font-size: 0.8em;
+  }
+
+  /* Nuevas secciones en móviles */
+  section {
+    padding: 40px 15px;
+    min-height: 400px;
+  }
+
+  .section-title {
+    font-size: 2em;
+  }
+
+  .section-description {
+    font-size: 1em;
+  }
+
+  .button-primary {
+    padding: 12px 25px;
+    font-size: 1em;
+  }
+
+  /* Slider de héroes en móviles */
+  .hero-grid-item-home {
+    width: 80px; /* Héroes más pequeños en móvil */
+    height: 45px;
+    margin: 0 3px; /* Reducir margen */
+  }
+}
+
+@media (max-width: 480px) {
+  .quote-text {
+    font-size: 1.5em;
+  }
+  .play-button {
+    font-size: 1em;
+    padding: 10px 20px;
+  }
+
+  .section-title {
+    font-size: 1.8em;
+  }
 }

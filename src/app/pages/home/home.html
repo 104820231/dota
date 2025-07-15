@@ -1,4 +1,98 @@
+<!-- src/app/pages/home/home.html -->
 <div class="home-container">
-  <h1>¡Bienvenido a la Página de Inicio de Dota 2!</h1>
-  <p>Explora héroes, noticias, e-sports y parches.</p>
+  <!-- Video de fondo (Sección 1: Hero Banner) -->
+  <video class="background-video" autoplay loop muted playsinline>
+    <source src="https://cdn.akamai.steamstatic.com/apps/dota2/videos/dota_react/homepage/dota_montage_webm.webm" type="video/webm">
+    Tu navegador no soporta el elemento de video.
+  </video>
+
+  <!-- Capa de contenido sobre el video -->
+  <div class="content-overlay">
+    <div class="main-content-wrapper">
+      <div class="quote-section animated-quote">
+        <p class="quote-text">«UNA OBRA MAESTRA DE LOS MULTIJUGADORES MODERNOS».</p>
+        <p class="quote-source">—DESTRUCTOID</p>
+      </div>
+
+      <div class="play-button-section">
+        <a href="https://store.steampowered.com/app/570/Dota_2/" target="_blank" class="play-button-link">
+          <button class="play-button">
+            <img src="assets/steam_icon.png" alt="Steam Icon" class="steam-icon">
+            JUEGA GRATIS
+          </button>
+        </a>
+        <p class="play-subtext">DESCARGAR EN STEAM</p>
+      </div>
+    </div>
   </div>
+</div>
+
+<!-- Nueva Sección 2: Join the Battle of the Ancients -->
+<section class="section-battle-ancients scroll-reveal">
+  <div class="section-content-wrapper">
+    <h2 class="section-title">ÚNETE A LA BATALLA DE LOS ANCIENTOS</h2>
+    <p class="section-description">
+      De un elenco de héroes en constante evolución, con habilidades y artefactos ilimitados,
+      Dota siempre tiene algo nuevo que descubrir. Con actualizaciones constantes que garantizan
+      una evolución continua de la jugabilidad, Dota 2 es un juego por el que merece la pena luchar.
+    </p>
+    <a routerLink="/heroes" class="button-primary">VER A TODOS LOS HÉROES</a>
+  </div>
+</section>
+
+<!-- Nueva Sección 3: Who Will You Choose? -->
+<section class="section-who-choose scroll-reveal">
+  <div class="section-content-wrapper">
+    <h2 class="section-title">¿A QUIÉN ELEGIRÁS?</h2>
+    <p class="section-description">
+      Desde magos místicos hasta bestias feroces y pícaros astutos, el elenco de héroes de Dota 2 es
+      enorme y de una diversidad ilimitada. Lanza increíbles hechizos y devastadoras habilidades
+      definitivas en tu camino hacia la victoria.
+    </p>
+    <a routerLink="/heroes" class="button-primary">VER A TODOS LOS HÉROES</a>
+  </div>
+</section>
+
+<!-- Nueva Sección 4: Hero Grid (Deslizante con múltiples filas) -->
+<section class="section-hero-grid scroll-reveal">
+  <div class="hero-grid-rows-container">
+    <ng-container *ngIf="allHeroes$ | async as heroes">
+      <!-- Fila 1: Desplazamiento a la izquierda -->
+      <div class="hero-grid-track track-1">
+        <a *ngFor="let hero of heroes" [routerLink]="'/heroes/' + hero.id" class="hero-grid-item-home">
+          <img [src]="hero.imageUrl" [alt]="hero.name">
+        </a>
+        <a *ngFor="let hero of heroes" [routerLink]="'/heroes/' + hero.id" class="hero-grid-item-home">
+          <img [src]="hero.imageUrl" [alt]="hero.name">
+        </a>
+      </div> <!-- CORREGIDO: Añadido </div> -->
+      <!-- Fila 2: Desplazamiento a la derecha -->
+      <div class="hero-grid-track track-2">
+        <a *ngFor="let hero of heroes" [routerLink]="'/heroes/' + hero.id" class="hero-grid-item-home">
+          <img [src]="hero.imageUrl" [alt]="hero.name">
+        </a>
+        <a *ngFor="let hero of heroes" [routerLink]="'/heroes/' + hero.id" class="hero-grid-item-home">
+          <img [src]="hero.imageUrl" [alt]="hero.name">
+        </a>
+      </div> <!-- CORREGIDO: Añadido </div> -->
+      <!-- Fila 3: Desplazamiento a la izquierda -->
+      <div class="hero-grid-track track-3">
+        <a *ngFor="let hero of heroes" [routerLink]="'/heroes/' + hero.id" class="hero-grid-item-home">
+          <img [src]="hero.imageUrl" [alt]="hero.name">
+        </a>
+        <a *ngFor="let hero of heroes" [routerLink]="'/heroes/' + hero.id" class="hero-grid-item-home">
+          <img [src]="hero.imageUrl" [alt]="hero.name">
+        </a>
+      </div> <!-- CORREGIDO: Añadido </div> -->
+      <!-- Fila 4: Desplazamiento a la derecha -->
+      <div class="hero-grid-track track-4">
+        <a *ngFor="let hero of heroes" [routerLink]="'/heroes/' + hero.id" class="hero-grid-item-home">
+          <img [src]="hero.imageUrl" [alt]="hero.name">
+        </a>
+        <a *ngFor="let hero of heroes" [routerLink]="'/heroes/' + hero.id" class="hero-grid-item-home">
+          <img [src]="hero.imageUrl" [alt]="hero.name">
+        </a>
+      </div> <!-- CORREGIDO: Añadido </div> -->
+    </ng-container>
+  </div>
+</section>
