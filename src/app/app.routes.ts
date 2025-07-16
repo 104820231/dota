@@ -43,9 +43,10 @@ export const routes: Routes = [
     title: 'Game Updates Page',
     canActivate: [AuthGuard] // Protege esta ruta
   },
-  {
+   {
     path: 'auth',
     loadComponent: () => import('./pages/auth/auth').then(m => m.Auth),
+
     title: 'Auth Page'
   },
   // Ruta por defecto o 404 (opcional)

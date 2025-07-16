@@ -1,46 +1,274 @@
-<div class="auth-container">
-  <div class="auth-card">
-    <h2>{{ isLoginMode ? 'Iniciar Sesión' : 'Registrarse' }}</h2>
+<!-- src/app/pages/auth/auth.html -->
+<div class="login">
+  <!-- Contenedor Desktop -->
+  <div class="container desktop-container" [ngClass]="{ toggle: !isLoginMode }">
+    <!-- FORMULARIO DE INICIO DE SESIÓN -->
+    <div class="container-form">
+      <form class="sign-in" (ngSubmit)="login()">
+        <h2 class="form-title">Iniciar Sesión</h2>
+        <div class="redes-sociales">
+          <i class="bi bi-google" (click)="loginWithGoogle()"></i>
+          <i class="bi bi-facebook" (click)="loginWithFacebook()"></i>
+          <i class="bi bi-twitter-x"></i>
+        </div>
+        <span class="form-subtitle">Use su correo y contraseña</span>
 
-    <form (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <label for="email">Correo Electrónico</label>
-        <input
-          type="email"
-          id="email"
-          [(ngModel)]="email"
-          name="email"
-          required
-          email
+        <div class="container-input">
+          <input
+            type="email"
+            placeholder="Email"
+            name="email"
+            [(ngModel)]="email"
+            autocomplete="off"
+            required
+          />
+        </div>
+
+        <div class="container-input">
+          <input
+            [type]="mostrarPassword ? 'text' : 'password'"
+            placeholder="Password"
+            name="password"
+            [(ngModel)]="password"
+            autocomplete="off"
+            required
+          />
+          @if (password) {
+          <i
+            class="bi"
+            [ngClass]="mostrarPassword ? 'bi-eye-slash' : 'bi-eye'"
+            (click)="togglePasswordVisibility()"
+            style="
+              cursor: pointer;
+              position: absolute;
+              right: 10px;
+              top: 50%;
+              transform: translateY(-50%);
+              color: #b0b0b0; /* Asegurar color del icono */
+            "
+          ></i>
+          }
+        </div>
+
+        <!-- Mensaje de error para login -->
+        <div *ngIf="errorMessage && isLoginMode" class="error-message">
+          <p>{{ errorMessage }}</p>
+        </div>
+
+        <a class="forgot-password">¿Olvidaste tu contraseña?</a>
+
+        <button class="button" type="submit" [disabled]="isLoading">
+          <i class="bi bi-box-arrow-in-right"></i> INICIAR SESIÓN
+          <span *ngIf="isLoading && isLoginMode" class="spinner"></span>
+        </button>
+      </form>
+    </div>
+
+    <!-- FORMULARIO DE REGISTRO -->
+    <div class="container-form">
+      <form class="sign-up" (ngSubmit)="register()">
+        <h2 class="form-title">Registrarse</h2>
+        <div class="redes-sociales">
+          <i class="bi bi-google" (click)="loginWithGoogle()"></i>
+          <i class="bi bi-facebook" (click)="loginWithFacebook()"></i>
+          <i class="bi bi-twitter-x"></i>
+        </div>
+        <span class="form-subtitle"
+          >Use su correo electrónico para registrarse</span
         >
+
+        <div class="container-input">
+          <input
+            [(ngModel)]="nombre"
+            name="nombre"
+            (input)="filtrarPrimeraPalabra($event)"
+            type="text"
+            placeholder="Nombre"
+            required
+          />
+        </div>
+
+        <div class="container-input">
+          <input
+            type="email"
+            name="registroEmail"
+            [(ngModel)]="registroEmail"
+            placeholder="Email"
+            required
+          />
+        </div>
+
+        <div class="container-input">
+          <input
+            type="password"
+            name="registroPassword"
+            [(ngModel)]="registroPassword"
+            placeholder="Password"
+            required
+          />
+        </div>
+
+        <!-- Mensaje de error para registro -->
+        <div *ngIf="errorMessage && !isLoginMode" class="error-message">
+          <p>{{ errorMessage }}</p>
+        </div>
+
+        <button class="button" type="submit" [disabled]="isLoading">
+          REGISTRARSE
+          <span *ngIf="isLoading && !isLoginMode" class="spinner"></span>
+        </button>
+      </form>
+    </div>
+
+    <!-- PANELES DE BIENVENIDA -->
+    <div class="container-welcome">
+      <div class="welcome-sign-up welcome">
+        <h3>¡Bienvenido!</h3>
+        <p>
+          Ingrese sus datos personales para usar todas las funciones del sitio
+        </p>
+        <button class="button" (click)="onSwitchMode()">Registrarse</button>
       </div>
 
-      <div class="form-group">
-        <label for="password">Contraseña</label>
-        <input
-          type="password"
-          id="password"
-          [(ngModel)]="password"
-          name="password"
-          required
-          minlength="6"
-        >
+      <div class="welcome-sign-in welcome">
+        <h3>¡Hola{{ primeraPalabra ? ", " + primeraPalabra : "" }}!</h3>
+        <p>
+          Registre sus datos personales para usar todas las funciones del sitio
+        </p>
+        <button class="button" (click)="onSwitchMode()">
+          Iniciar Sesión
+        </button>
       </div>
+    </div>
+  </div>
 
-      <div *ngIf="errorMessage" class="error-message">
-        <p>{{ errorMessage }}</p>
+  <!-- Contenedor Mobile -->
+  <div class="mobile-container">
+    <div class="mobile-tabs">
+      <div
+        class="tab"
+        [class.active]="mobileView === 'login'"
+        (click)="mobileView = 'login'; errorMessage = null"
+      >
+        Iniciar Sesión
       </div>
+      <div
+        class="tab"
+        [class.active]="mobileView === 'register'"
+        (click)="mobileView = 'register'; errorMessage = null"
+      >
+        Registrarse
+      </div>
+    </div>
 
-      <button type="submit" [disabled]="isLoading">
-        {{ isLoginMode ? 'Iniciar Sesión' : 'Registrarse' }}
-        <span *ngIf="isLoading" class="spinner"></span> </button>
-    </form>
+    <!-- Mobile Login Form -->
+    <div class="mobile-form" *ngIf="mobileView === 'login'">
+      <h2 class="form-title">Iniciar Sesión</h2>
+      <div class="social-icons">
+        <i class="bi bi-google" (click)="loginWithGoogle()"></i>
+        <i class="bi bi-facebook" (click)="loginWithFacebook()"></i>
+        <i class="bi bi-twitter-x"></i>
+      </div>
+      <p class="form-subtitle">Use su correo y contraseña</p>
 
-    <p class="switch-mode-text">
-      {{ isLoginMode ? '¿No tienes una cuenta?' : '¿Ya tienes una cuenta?' }}
-      <a (click)="onSwitchMode()">
-        {{ isLoginMode ? 'Regístrate' : 'Inicia sesión' }}
-      </a>
-    </p>
+      <form (ngSubmit)="login()">
+        <div class="form-group">
+          <input
+            type="email"
+            placeholder="Email"
+            name="email"
+            [(ngModel)]="email"
+            autocomplete="off"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <div class="password-input">
+            <input
+              [type]="mostrarPassword ? 'text' : 'password'"
+              placeholder="Password"
+              name="password"
+              [(ngModel)]="password"
+              autocomplete="off"
+              required
+            />
+            @if (password) {
+            <i
+              class="bi"
+              [ngClass]="mostrarPassword ? 'bi-eye-slash' : 'bi-eye'"
+              (click)="togglePasswordVisibility()"
+            ></i>
+            }
+          </div>
+        </div>
+
+        <!-- Mensaje de error para login móvil -->
+        <div *ngIf="errorMessage && mobileView === 'login'" class="error-message">
+          <p>{{ errorMessage }}</p>
+        </div>
+
+        <a class="forgot-password">¿Olvidaste tu contraseña?</a>
+
+        <button class="mobile-button" type="submit" [disabled]="isLoading">
+          <i class="bi bi-box-arrow-in-right"></i> INICIAR SESIÓN
+          <span *ngIf="isLoading && mobileView === 'login'" class="spinner"></span>
+        </button>
+      </form>
+    </div>
+
+    <!-- Mobile Register Form -->
+    <div class="mobile-form" *ngIf="mobileView === 'register'">
+      <h2 class="form-title">Registrarse</h2>
+      <div class="social-icons">
+        <i class="bi bi-google" (click)="loginWithGoogle()"></i>
+        <i class="bi bi-facebook" (click)="loginWithFacebook()"></i>
+        <i class="bi bi-twitter-x"></i>
+      </div>
+      <p class="form-subtitle">Use su correo electrónico para registrarse</p>
+
+      <form (ngSubmit)="register()">
+        <div class="form-group">
+          <input
+            [(ngModel)]="nombre"
+            name="nombre"
+            (input)="filtrarPrimeraPalabra($event)"
+            type="text"
+            placeholder="Nombre"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <input
+            type="email"
+            name="registroEmail"
+            [(ngModel)]="registroEmail"
+            placeholder="Email"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <input
+            type="password"
+            name="registroPassword"
+            [(ngModel)]="registroPassword"
+            placeholder="Password"
+            required
+          />
+        </div>
+
+        <!-- Mensaje de error para registro móvil -->
+        <div *ngIf="errorMessage && mobileView === 'register'" class="error-message">
+          <p>{{ errorMessage }}</p>
+        </div>
+
+        <button class="mobile-button" type="submit" [disabled]="isLoading">
+          REGISTRARSE
+          <span *ngIf="isLoading && mobileView === 'register'" class="spinner"></span>
+        </button>
+      </form>
+    </div>
   </div>
 </div>

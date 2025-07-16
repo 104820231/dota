@@ -2,7 +2,7 @@
 import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, Router } from '@angular/router';
-import { AuthService } from '../../services/auth'; // Asegúrate de que la ruta sea correcta
+import { AuthService } from '../../services/auth.service'; // Asegúrate de que la ruta sea correcta
 import { Subscription } from 'rxjs'; // Para manejar la suscripción
 
 @Component({

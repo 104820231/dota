@@ -1,7 +1,7 @@
 // src/app/guards/auth-guard.ts
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { AuthService } from '../services/auth';
+import { AuthService } from '../services/auth.service';
 import { map, take } from 'rxjs/operators'; // Para observables
 
 export const AuthGuard: CanActivateFn = (route, state) => {

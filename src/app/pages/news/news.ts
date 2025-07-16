@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'; // Necesario para ngModel en formularios de plantilla
 import { HeroGuideService } from '../../services/hero-guide'; // Importa el servicio de guías
 import { HeroGuide } from '../../models/hero-guide.model'; // Importa la interfaz del modelo
-import { AuthService } from '../../services/auth'; 
+import { AuthService } from '../../services/auth.service'; 
  // Importa el servicio de autenticación
 import { User } from '@angular/fire/auth'; // Tipo de usuario de Firebase
 import { Subscription, Observable, of } from 'rxjs'; // <-- ¡Añadido 'of' de rxjs!
