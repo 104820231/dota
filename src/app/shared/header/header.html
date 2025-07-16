@@ -1,24 +1,32 @@
-<header class="header">
-  <div class="logo">
-    <a routerLink="/">DOTA 2</a>
-  </div>
-  <nav class="main-nav">
-    <ul>
-      <li><a routerLink="/heroes">HÉROES</a></li>
-      <li class="dropdown">
-        <a href="#" class="dropbtn">JUEGO ▼</a>
-        <div class="dropdown-content">
-          <a routerLink="/news">NOTICIAS</a>
-          <a routerLink="/patches">PARCHES</a>
-          <a routerLink="/game-updates">ACTUALIZACIONES DEL JUEGO</a>
-        </div>
-      </li>
-      <li><a routerLink="/esports">E-SPORTS</a></li>
-    </ul>
-  </nav>
-  <div class="auth-buttons">
-    <button *ngIf="isAuthenticated" class="btn-primary" (click)="onLogout()">CERRAR SESIÓN</button>
-    <button *ngIf="!isAuthenticated" class="btn-primary" routerLink="/auth">INICIAR SESIÓN</button>
-    <button class="btn-secondary">JUEGA GRATIS</button>
-  </div>
-</header>
+  <!-- src/app/components/header/header.html -->
+  <header class="header-container">
+    <div class="header-left">
+      <a routerLink="/" class="logo-link">
+        <span>MI SITIO</span>
+      </a>
+    </div>
+    <nav class="header-nav">
+      <ul class="nav-list">
+        <li class="nav-item"><a routerLink="/heroes" routerLinkActive="active-link">HÉROES</a></li>
+        <li class="nav-item dropdown">
+          <a href="#" class="dropdown-toggle">JUEGO <span class="dropdown-arrow">▼</span></a>
+          <ul class="dropdown-menu">
+            <li><a routerLink="/news" routerLinkActive="active-link">NOTICIAS</a></li>
+            <li><a routerLink="/patches" routerLinkActive="active-link">PARCHES</a></li>
+            <li><a routerLink="/game-updates" routerLinkActive="active-link">ACTUALIZACIONES</a></li>
+          </ul>
+        </li>
+        <li class="nav-item"><a routerLink="/esports" routerLinkActive="active-link">E-SPORTS</a></li>
+      </ul>
+    </nav>
+    <div class="header-right">
+      <!-- Botón de inicio/cierre de sesión dinámico -->
+      <button class="btn-login" (click)="user ? onLogoutClick() : onLoginClick()">
+        {{ user ? 'CERRAR SESIÓN' : 'INICIAR SESIÓN' }}
+      </button>
+      <!-- Botón "JUEGA GRATIS" que redirige a Steam en una nueva pestaña -->
+      <a href="https://store.steampowered.com/app/570/Dota_2/" target="_blank" class="btn-play-link">
+        <button class="btn-play">JUEGA GRATIS</button>
+      </a>
+    </div>
+  </header>

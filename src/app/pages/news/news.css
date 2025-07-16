@@ -1,262 +1,294 @@
-    /* src/app/pages/news/news.css */
-    /* Contenedor principal de la página */
-    .news-container {
-      padding: 40px 20px; /* Espaciado interno */
-      max-width: 1200px; /* Ancho máximo del contenido */
-      margin: 0 auto; /* Centrar en la página */
-      background-color: #0d0d0d; /* Fondo oscuro */
-      color: #f0f0f0; /* Color de texto claro */
-    }
+/* src/app/pages/news/news.css */
+/* Contenedor principal de la página */
+.news-container {
+  padding: 40px 20px; /* Espaciado interno */
+  max-width: 1200px; /* Ancho máximo del contenido */
+  margin: 0 auto; /* Centrar en la página */
+  background-color: #0d0d0d; /* Fondo oscuro */
+  color: #f0f0f0; /* Color de texto claro */
+}
 
-    /* Estilos para títulos principales */
-    h1, h2 {
-      color: #e67e22; /* Color de acento de Dota */
-      text-align: center;
-      margin-bottom: 30px;
-      font-size: 2.2em;
-      border-bottom: 2px solid #e67e22; /* Línea divisoria */
-      padding-bottom: 10px;
-    }
+/* Estilos para títulos principales */
+h1, h2 {
+  color: #e67e22; /* Color de acento de Dota */
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 2.2em;
+  border-bottom: 2px solid #e67e22; /* Línea divisoria */
+  padding-bottom: 10px;
+}
 
-    h2 {
-      font-size: 1.8em;
-      margin-top: 40px;
-      border-bottom: 1px solid #e67e22;
-    }
+h2 {
+  font-size: 1.8em;
+  margin-top: 40px;
+  border-bottom: 1px solid #e67e22;
+}
 
-    /* Separador horizontal */
-    hr {
-      border: 0;
-      height: 1px;
-      background: #444;
-      margin: 40px 0;
-    }
+/* Separador horizontal */
+hr {
+  border: 0;
+  height: 1px;
+  background: #444;
+  margin: 40px 0;
+}
 
-    /* Sección para el botón de crear guía */
-    .create-guide-section {
-      text-align: center;
-      margin-bottom: 30px;
-    }
+/* Sección para el botón de crear guía */
+.create-guide-section {
+  text-align: center;
+  margin-bottom: 30px;
+}
 
-    /* Botón "Crear Nueva Guía" */
-    .btn-create-guide {
-      background-color: #27ae60; /* Verde para crear */
-      color: white;
-      padding: 12px 25px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 1.1em;
-      transition: background-color 0.3s ease;
-    }
+/* Botón "Crear Nueva Guía" */
+.btn-create-guide {
+  background-color: #27ae60; /* Verde para crear */
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.1em;
+  transition: background-color 0.3s ease;
+}
 
-    .btn-create-guide:hover {
-      background-color: #229954;
-    }
+.btn-create-guide:hover {
+  background-color: #229954;
+}
 
-    /* Tarjeta del formulario de creación */
-    .guide-form-card {
-      background-color: #2a2a2a;
-      padding: 30px;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-      margin-top: 20px;
-      max-width: 700px;
-      margin-left: auto;
-      margin-right: auto;
-      text-align: left;
-    }
+/* Tarjeta del formulario de creación */
+.guide-form-card {
+  background-color: #2a2a2a;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  margin-top: 20px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+}
 
-    .guide-form-card h2 {
-      text-align: center;
-      color: #e67e22;
-      border-bottom: none;
-      font-size: 1.6em;
-      margin-bottom: 25px;
-    }
+.guide-form-card h2 {
+  text-align: center;
+  color: #e67e22;
+  border-bottom: none;
+  font-size: 1.6em;
+  margin-bottom: 25px;
+}
 
-    /* Grupos de formulario (label + input/textarea) */
-    .form-group {
-      margin-bottom: 18px;
-    }
+/* Grupos de formulario (label + input/textarea/select) */
+.form-group {
+  margin-bottom: 18px;
+}
 
-    label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: bold;
-      color: #cccccc;
-    }
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #cccccc;
+}
 
-    input[type="text"],
-    textarea {
-      width: calc(100% - 20px); /* Ancho completo menos padding */
-      padding: 10px;
-      border: 1px solid #444;
-      border-radius: 4px;
-      background-color: #333;
-      color: #f0f0f0;
-      font-size: 1em;
-      box-sizing: border-box; /* Incluye padding en el ancho */
-    }
+input[type="text"],
+textarea,
+select { /* <-- ¡Añadido 'select' aquí! */
+  width: calc(100% - 20px); /* Ancho completo menos padding */
+  padding: 10px;
+  border: 1px solid #444;
+  border-radius: 4px;
+  background-color: #333;
+  color: #f0f0f0;
+  font-size: 1em;
+  box-sizing: border-box; /* Incluye padding en el ancho */
+}
 
-    input[type="text"]:focus,
-    textarea:focus {
-      outline: none;
-      border-color: #e67e22;
-      box-shadow: 0 0 0 2px rgba(230, 126, 34, 0.3);
-    }
+input[type="text"]:focus,
+textarea:focus,
+select:focus { /* <-- ¡Añadido 'select' aquí! */
+  outline: none;
+  border-color: #e67e22;
+  box-shadow: 0 0 0 2px rgba(230, 126, 34, 0.3);
+}
 
-    /* Botón de envío del formulario */
-    .guide-form-card button[type="submit"] {
-      background-color: #e67e22;
-      color: white;
-      padding: 12px 25px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 1.1em;
-      transition: background-color 0.3s ease;
-      width: 100%;
-      margin-top: 15px;
-    }
+/* Estilos específicos para el select */
+select {
+  -webkit-appearance: none; /* Elimina estilos por defecto en WebKit */
+  -moz-appearance: none; /* Elimina estilos por defecto en Mozilla */
+  appearance: none; /* Elimina estilos por defecto */
+  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23cccccc%22%20d%3D%22M287%2C197.3L159.1%2C69.4c-3.1-3.1-8.2-3.1-11.3%2C0L5.4%2C197.3c-3.1%2C3.1-3.1%2C8.2%2C0%2C11.3l11.3%2C11.3c3.1%2C3.1%2C8.2%2C3.1%2C11.3%2C0L146.7%2C108.7c3.1-3.1%2C8.2-3.1%2C11.3%2C0L264.4%2C219.9c3.1%2C3.1%2C8.2%2C3.1%2C11.3%2C0l11.3-11.3C290.1%2C205.5%2C290.1%2C200.4%2C287%2C197.3z%22%2F%3E%3C%2Fsvg%3E');
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  background-size: 12px;
+  padding-right: 40px; /* Espacio para el icono de flecha */
+}
 
-    .guide-form-card button[type="submit"]:hover:not(:disabled) {
-      background-color: #d35400;
-    }
+/* Botón de envío del formulario */
+.guide-form-card button[type="submit"] {
+  background-color: #e67e22;
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.1em;
+  transition: background-color 0.3s ease;
+  width: 100%;
+  margin-top: 15px;
+}
 
-    .guide-form-card button[type="submit"]:disabled {
-      background-color: #555;
-      cursor: not-allowed;
-      opacity: 0.7;
-    }
+.guide-form-card button[type="submit"]:hover:not(:disabled) {
+  background-color: #d35400;
+}
 
-    /* Mensajes de formulario (éxito/error) */
-    .form-message {
-      padding: 10px;
-      border-radius: 4px;
-      margin-bottom: 15px;
-      font-size: 0.9em;
-      text-align: center;
-    }
+.guide-form-card button[type="submit"]:disabled {
+  background-color: #555;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
 
-    .form-message p {
-      margin: 0;
-    }
+/* Mensajes de formulario (éxito/error) */
+.form-message {
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  font-size: 0.9em;
+  text-align: center;
+}
 
-    .form-message.success {
-      background-color: #27ae60;
-      color: white;
-    }
+.form-message p {
+  margin: 0;
+}
 
-    .form-message.error {
-      background-color: #e74c3c;
-      color: white;
-    }
+.form-message.success {
+  background-color: #27ae60;
+  color: white;
+}
+
+.form-message.error {
+  background-color: #e74c3c;
+  color: white;
+}
 
 
-    /* Lista de guías */
-    .guides-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Columnas responsivas */
-      gap: 30px; /* Espacio entre tarjetas */
-      margin-top: 30px;
-    }
+/* Lista de guías */
+.guides-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Columnas responsivas */
+  gap: 30px; /* Espacio entre tarjetas */
+  margin-top: 30px;
+}
 
-    /* Tarjeta individual de guía */
-    .guide-card {
-      background-color: #2a2a2a;
-      padding: 25px;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      transition: transform 0.2s ease;
-      position: relative;
-    }
+/* Tarjeta individual de guía */
+.guide-card {
+  background-color: #2a2a2a;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease;
+  position: relative;
+}
 
-    .guide-card:hover {
-      transform: translateY(-5px); /* Efecto hover */
-    }
+.guide-card:hover {
+  transform: translateY(-5px); /* Efecto hover */
+}
 
-    .guide-card h3 {
-      color: #00bcd4; /* Azul para el título de la guía */
-      margin-top: 0;
-      margin-bottom: 10px;
-      font-size: 1.4em;
-    }
+/* Encabezado de la tarjeta de guía (para el icono y título) */
+.guide-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 10px;
+}
 
-    .guide-card p {
-      color: #cccccc;
-      line-height: 1.6;
-      margin-bottom: 10px;
-    }
+.guide-header h3 {
+  color: #00bcd4; /* Azul para el título de la guía */
+  margin: 0; /* Reinicia el margen del h3 dentro del header */
+  font-size: 1.4em;
+  line-height: 1.2; /* Ajusta la altura de línea */
+}
 
-    .guide-creator {
-      font-size: 0.9em;
-      color: #999;
-      margin-bottom: 15px;
-      font-style: italic;
-    }
+/* Estilo para el icono del héroe en la tarjeta de guía */
+.hero-icon-small {
+  width: 40px; /* Tamaño del icono */
+  height: 40px;
+  border-radius: 50%; /* Icono circular */
+  object-fit: cover; /* Asegura que la imagen se ajuste bien */
+  border: 2px solid #e67e22; /* Borde de color de Dota */
+  flex-shrink: 0; /* Evita que el icono se encoja */
+}
 
-    .item-sections div {
-      background-color: #333;
-      padding: 8px 12px;
-      border-radius: 4px;
-      margin-bottom: 8px;
-      font-size: 0.95em;
-      color: #f0f0f0;
-    }
 
-    .item-sections strong {
-      color: #e67e22; /* Color de acento */
-      margin-right: 5px;
-    }
+.guide-card p {
+  color: #cccccc;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
 
-    .guide-date {
-      font-size: 0.85em;
-      color: #777;
-      text-align: right;
-      margin-top: 15px;
-    }
+.guide-creator {
+  font-size: 0.9em;
+  color: #999;
+  margin-bottom: 15px;
+  font-style: italic;
+}
 
-    /* Acciones de la guía (botones eliminar/editar) */
-    .guide-actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-      margin-top: 15px;
-    }
+.item-sections div {
+  background-color: #333;
+  padding: 8px 12px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  font-size: 0.95em;
+  color: #f0f0f0;
+}
 
-    .guide-actions button {
-      padding: 8px 15px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 0.9em;
-      font-weight: bold;
-      transition: background-color 0.3s ease;
-    }
+.item-sections strong {
+  color: #e67e22; /* Color de acento */
+  margin-right: 5px;
+}
 
-    .btn-delete {
-      background-color: #e74c3c; /* Rojo para eliminar */
-      color: white;
-    }
+.guide-date {
+  font-size: 0.85em;
+  color: #777;
+  text-align: right;
+  margin-top: 15px;
+}
 
-    .btn-delete:hover {
-      background-color: #c0392b;
-    }
+/* Acciones de la guía (botones eliminar/editar) */
+.guide-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 15px;
+}
 
-    /* Media Queries para responsividad */
-    @media (max-width: 768px) {
-      .guides-list {
-        grid-template-columns: 1fr; /* Una columna en pantallas pequeñas */
-      }
-      .guide-form-card {
-        padding: 20px;
-      }
-      .news-container {
-        padding: 20px 10px;
-      }
-    }
-    
+.guide-actions button {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9em;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.btn-delete {
+  background-color: #e74c3c; /* Rojo para eliminar */
+  color: white;
+}
+
+.btn-delete:hover {
+  background-color: #c0392b;
+}
+
+/* Media Queries para responsividad */
+@media (max-width: 768px) {
+  .guides-list {
+    grid-template-columns: 1fr; /* Una columna en pantallas pequeñas */
+  }
+  .guide-form-card {
+    padding: 20px;
+  }
+  .news-container {
+    padding: 20px 10px;
+  }
+}

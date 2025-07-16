@@ -1180,12 +1180,12 @@ export class HeroService {
     }
   ];
 
-  constructor() { }
+   constructor() { }
 
   /**
    * Obtiene un héroe por su ID.
    * @param id El ID del héroe (ej. 'drow_ranger').
-   * @returns Un Observable que emite el objeto Heroe, o undefined si no se encuentra.
+   * @returns Un Observable que emite el objeto Hero, o undefined si no se encuentra.
    */
   getHeroById(id: string): Observable<Hero | undefined> {
     const hero = this.heroes.find(h => h.id === id);
@@ -1194,67 +1194,9 @@ export class HeroService {
 
   /**
    * Obtiene una lista de todos los héroes.
-   * @returns Un Observable que emite un array de objetos Heroe.
+   * @returns Un Observable que emite un array de objetos Hero.
    */
   getAllHeroes(): Observable<Hero[]> {
     return of(this.heroes);
-  }
-
-  /**
-   * Obtiene una lista de héroes filtrados por término de búsqueda, atributo y complejidad.
-   * @param searchTerm Término de búsqueda por nombre (opcional).
-   * @param attribute Atributo principal (opcional, ej. 'Agilidad', 'Fuerza', 'Inteligencia', 'Universal').
-   * @param complexity Nivel de complejidad (opcional, 1, 2 o 3).
-   * @returns Un Observable que emite un array de héroes filtrados.
-   */
-  searchHeroes(searchTerm: string = '', attribute: string | null = null, complexity: number | null = null): Observable<Hero[]> {
-    let filteredHeroes = this.heroes;
-
-    // Filtrar por término de búsqueda
-    if (searchTerm && searchTerm.trim() !== '') {
-      const lowerCaseSearchTerm = searchTerm.toLowerCase();
-      filteredHeroes = filteredHeroes.filter(hero =>
-        hero.name.toLowerCase().includes(lowerCaseSearchTerm)
-      );
-    }
-
-    // Filtrar por atributo
-    if (attribute && attribute !== 'Todos') {
-      filteredHeroes = filteredHeroes.filter(hero =>
-        hero.attribute === attribute
-      );
-    }
-
-    // Filtrar por complejidad
-    // La condición es correcta: si complexity es null o 0, no filtra por complejidad.
-    if (complexity !== null && complexity !== 0) {
-      filteredHeroes = filteredHeroes.filter(hero =>
-        hero.complexity === complexity
-      );
-    }
-
-    return of(filteredHeroes);
-  }
-
-  /**
-   * Obtiene una lista de todos los atributos únicos de los héroes.
-   * @returns Un array de strings con los atributos únicos.
-   */
-  getUniqueAttributes(): string[] {
-    const attributes = new Set<string>();
-    this.heroes.forEach(hero => attributes.add(hero.attribute));
-    return ['Todos', ...Array.from(attributes).sort()]; // Añade 'Todos' y ordena alfabéticamente
-  }
-
-  /**
-   * Obtiene una lista de todos los niveles de complejidad únicos de los héroes.
-   * @returns Un array de números con los niveles de complejidad únicos.
-   */
-  getUniqueComplexities(): number[] {
-    const complexities = new Set<number>();
-    this.heroes.forEach(hero => complexities.add(hero.complexity));
-    // Asegurarse de que el 0 esté al principio y luego los demás números ordenados.
-    const sortedComplexities = Array.from(complexities).sort((a, b) => a - b);
-    return [0, ...sortedComplexities]; // Añade 0 y ordena numéricamente
   }
 }

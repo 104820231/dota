@@ -14,11 +14,17 @@
     <div *ngIf="showCreateForm" class="guide-form-card">
       <h2>Crear Nueva Guía</h2>
       <form (ngSubmit)="onCreateGuide()">
-        <!-- Campo Nombre del Héroe -->
+        <!-- Campo para seleccionar el Héroe -->
         <div class="form-group">
-          <label for="heroName">Nombre del Héroe:</label>
-          <input type="text" id="heroName" [(ngModel)]="newGuide.heroName" name="heroName" required>
+          <label for="selectedHero">Seleccionar Héroe:</label>
+          <select id="selectedHero" [(ngModel)]="selectedHeroId" name="selectedHero" required>
+            <option [ngValue]="null" disabled>-- Selecciona un héroe --</option>
+            @for (hero of heroes; track hero.id) {
+              <option [ngValue]="hero.id">{{ hero.name }}</option>
+            }
+          </select>
         </div>
+
         <!-- Campo Título de la Guía -->
         <div class="form-group">
           <label for="guideTitle">Título de la Guía:</label>
@@ -73,7 +79,11 @@
     </div>
     <!-- Iteración sobre todas las guías para mostrarlas -->
     <div *ngFor="let guide of allHeroGuides$ | async" class="guide-card">
-      <h3>{{ guide.guideTitle }} - {{ guide.heroName }}</h3>
+      <div class="guide-header">
+        <!-- Icono del héroe -->
+        <img [src]="guide.selectedHeroIconPath" [alt]="guide.heroName" class="hero-icon-small">
+        <h3>{{ guide.guideTitle }} - {{ guide.heroName }}</h3>
+      </div>
       <p class="guide-creator">Creado por: {{ guide.creatorEmail }}</p>
       <p><strong>Descripción:</strong> {{ guide.guideDescription }}</p>
       <div class="item-sections">
@@ -104,7 +114,11 @@
       </div>
       <!-- Iteración sobre las guías del usuario actual -->
       <div *ngFor="let guide of userGuides" class="guide-card">
-        <h3>{{ guide.guideTitle }} - {{ guide.heroName }}</h3>
+        <div class="guide-header">
+          <!-- Icono del héroe -->
+          <img [src]="guide.selectedHeroIconPath" [alt]="guide.heroName" class="hero-icon-small">
+          <h3>{{ guide.guideTitle }} - {{ guide.heroName }}</h3>
+        </div>
         <p class="guide-creator">Creado por: {{ guide.creatorEmail }}</p>
         <p><strong>Descripción:</strong> {{ guide.guideDescription }}</p>
         <div class="item-sections">

@@ -51,7 +51,6 @@ export class HeroGuideService {
    */
   getHeroGuideById(id: string): Observable<HeroGuide | undefined> {
     // Crea una consulta para filtrar documentos donde 'id' coincida con el ID proporcionado.
-    // Aunque docRef se puede sombrear, es una referencia válida.
     const q = query(this.heroGuidesCollection, where('id', '==', id));
     return collectionData(q, { idField: 'id' }).pipe(
       // El pipe map se usa para extraer el primer (y único) resultado del array.

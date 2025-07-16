@@ -1,122 +1,113 @@
 // src/app/pages/heroes/heroes.ts
 import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router'; // Para obtener parámetros de la ruta
 import { HeroService } from '../../services/hero';
-import { Hero } from '../../models/hero.model';
-// Importaciones de RxJS para la búsqueda y filtros en tiempo real
-import { Subscription, Observable, Subject, combineLatest } from 'rxjs';
-import { debounceTime, distinctUntilChanged, switchMap, startWith } from 'rxjs/operators';
-import { FormsModule } from '@angular/forms'; // Necesario para ngModel
+import { Hero } from '../../models/hero.model'; // <-- ¡Importa el modelo de héroe correctamente!
+import { Subscription, Observable, combineLatest, BehaviorSubject } from 'rxjs'; // Para manejar la suscripción y filtros
+import { map, startWith, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { FormsModule } from '@angular/forms'; // Importa FormsModule para ngModel
 
 @Component({
   selector: 'app-heroes',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule], // Asegúrate de incluir FormsModule
+  imports: [CommonModule, RouterLink, FormsModule], // Asegúrate de CommonModule, RouterLink y FormsModule
   templateUrl: './heroes.html',
   styleUrls: ['./heroes.css']
 })
 export class Heroes implements OnInit, OnDestroy {
-  private route: ActivatedRoute = inject(ActivatedRoute);
-  public heroService: HeroService = inject(HeroService); // Público para acceso en HTML
+  private route: ActivatedRoute = inject(ActivatedRoute); // Inyecta ActivatedRoute para leer la URL
+  public heroService: HeroService = inject(HeroService); // <-- ¡IMPORTANTE! Hazlo público para usarlo en el HTML
 
-  hero: Hero | undefined; // Para la vista de detalle de un héroe
-  private routeSubscription: Subscription | undefined;
+  hero: Hero | undefined; // Variable para almacenar el héroe actual (para la vista de detalle)
+  private routeSubscription: Subscription | undefined; // Para desuscribirse de los parámetros de la ruta
 
   // Propiedades para los filtros
+  selectedAttribute: string = 'Todos';
+  selectedComplexity: number = 0;
   searchTerm: string = '';
-  selectedAttribute: string | null = 'Todos'; // Valor inicial para el desplegable de atributo
-  selectedComplexity: number | null = 0; // <-- ¡Valor inicial para el desplegable de complejidad (0 para "Todas")!
 
-  // Subjects para emitir cambios en los filtros
-  private searchTerms = new Subject<string>();
-  private attributeFilter = new Subject<string | null>();
-  private complexityFilter = new Subject<number | null>();
+  // Subjects para los filtros (mejor para reactividad)
+  private attributeFilterSubject = new BehaviorSubject<string>('Todos');
+  private complexityFilterSubject = new BehaviorSubject<number>(0);
+  private searchTermSubject = new BehaviorSubject<string>('');
 
-  filteredHeroes$: Observable<Hero[]>; // Observable que contendrá los héroes filtrados
-
-  // Listas para los desplegables
+  // Observables para los héroes filtrados y propiedades únicas
+  filteredHeroes$: Observable<Hero[]> | undefined;
   uniqueAttributes: string[] = [];
   uniqueComplexities: number[] = [];
 
-  constructor() {
-    // Inicializa las listas de atributos y complejidades
-    this.uniqueAttributes = this.heroService.getUniqueAttributes();
-    this.uniqueComplexities = this.heroService.getUniqueComplexities();
-
-    // Combina los observables de los filtros para disparar la búsqueda cuando cualquiera cambia
-    this.filteredHeroes$ = combineLatest([
-      this.searchTerms.pipe(
-        startWith(''), // Emite un valor inicial para que la búsqueda se dispare al cargar
-        debounceTime(300),
-        distinctUntilChanged()
-      ),
-      this.attributeFilter.pipe(
-        startWith(this.selectedAttribute), // Emite el valor inicial del atributo
-        distinctUntilChanged()
-      ),
-      this.complexityFilter.pipe(
-        startWith(this.selectedComplexity), // Emite el valor inicial de la complejidad
-        distinctUntilChanged()
-      )
-    ]).pipe(
-      // switchMap para llamar al servicio de héroes con los valores de los filtros combinados
-      switchMap(([term, attribute, complexity]) =>
-        this.heroService.searchHeroes(term, attribute, complexity)
-      )
-    );
-  }
+  constructor() { }
 
   ngOnInit(): void {
+    // Suscribirse a los parámetros de la URL para obtener el ID del héroe
     this.routeSubscription = this.route.paramMap.subscribe(params => {
-      const heroId = params.get('id');
+      const heroId = params.get('id'); // Obtiene el parámetro 'id' de la URL (ej. 'drow_ranger')
       if (heroId) {
+        // Si hay un ID en la URL, busca ese héroe específico
         this.heroService.getHeroById(heroId).subscribe(heroData => {
-          this.hero = heroData;
+          this.hero = heroData; // Asigna el héroe encontrado a la variable 'hero'
         });
       } else {
-        this.hero = undefined;
-        // Cuando no hay ID (estamos en la lista de héroes),
-        // dispara la búsqueda inicial con los valores por defecto de los filtros
-        this.searchTerms.next(this.searchTerm);
-        this.attributeFilter.next(this.selectedAttribute);
-        this.complexityFilter.next(this.selectedComplexity);
+        // Si no hay ID en la URL (ej. estamos en /heroes), no hay un héroe específico seleccionado.
+        this.hero = undefined; // Asegura que no se muestre un héroe anterior al volver a la lista
+        this.setupHeroFilters(); // Configura los filtros solo si estamos en la vista de lista
       }
     });
   }
 
-  /**
-   * Método que se llama cuando el valor del input de búsqueda cambia.
-   * Emite el nuevo término al Subject `searchTerms`.
-   */
-  onSearchTermChange(term: string): void {
-    this.searchTerms.next(term);
+  private setupHeroFilters(): void {
+    // Obtener todos los héroes una vez
+    const allHeroes$ = this.heroService.getAllHeroes().pipe(
+      map(heroes => {
+        // Extraer atributos y complejidades únicas
+        this.uniqueAttributes = [...new Set(heroes.map(h => h.attribute))].sort();
+        this.uniqueComplexities = [...new Set(heroes.map(h => h.complexity))].sort((a, b) => a - b);
+        return heroes;
+      })
+    );
+
+    // Combinar los observables de filtros y la lista de héroes
+    this.filteredHeroes$ = combineLatest([
+      allHeroes$,
+      this.attributeFilterSubject.pipe(startWith(this.selectedAttribute)),
+      this.complexityFilterSubject.pipe(startWith(this.selectedComplexity)),
+      this.searchTermSubject.pipe(
+        startWith(this.searchTerm),
+        debounceTime(300), // Espera 300ms después de la última pulsación
+        distinctUntilChanged() // Solo emite si el valor es diferente al anterior
+      )
+    ]).pipe(
+      map(([heroes, attribute, complexity, term]) => {
+        return heroes.filter(hero => {
+          const matchesAttribute = attribute === 'Todos' || hero.attribute === attribute;
+          const matchesComplexity = complexity === 0 || hero.complexity === complexity;
+          const matchesSearchTerm = hero.name.toLowerCase().includes(term.toLowerCase());
+          return matchesAttribute && matchesComplexity && matchesSearchTerm;
+        });
+      })
+    );
   }
 
-  /**
-   * Método que se llama cuando el valor del desplegable de atributo cambia.
-   * Emite el nuevo atributo al Subject `attributeFilter`.
-   */
+  // Métodos para actualizar los BehaviorSubjects
   onAttributeChange(attribute: string): void {
-    this.attributeFilter.next(attribute);
+    this.attributeFilterSubject.next(attribute);
   }
 
-  /**
-   * Método que se llama cuando el valor del desplegable de complejidad cambia.
-   * Emite la nueva complejidad al Subject `complexityFilter`.
-   */
   onComplexityChange(complexity: number): void {
-    // Asegurarse de que el valor sea un número, aunque [ngValue] ya ayuda
-    this.complexityFilter.next(Number(complexity));
+    this.complexityFilterSubject.next(complexity);
+  }
+
+  onSearchTermChange(term: string): void {
+    this.searchTermSubject.next(term);
   }
 
   ngOnDestroy(): void {
+    // Desuscribirse para evitar fugas de memoria cuando el componente se destruye
     if (this.routeSubscription) {
       this.routeSubscription.unsubscribe();
     }
-    // Completa los Subjects para liberar recursos
-    this.searchTerms.complete();
-    this.attributeFilter.complete();
-    this.complexityFilter.complete();
+    // No es necesario desuscribirse de los BehaviorSubjects, ya que se completan con el componente.
+    // Sin embargo, si tuvieras otras suscripciones, deberías limpiarlas aquí.
   }
 }
