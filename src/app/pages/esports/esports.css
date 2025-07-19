@@ -1,3 +1,4 @@
+
 .esports-container {
   max-width: 1200px;
   margin: 50px auto;
@@ -69,24 +70,34 @@
 }
 
 .trophy-section {
-    text-align: center;
-    position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
 }
 
 .trophy-section img {
-    width: 150px; /* Ajusta el tamaño según tu imagen */
-    height: auto;
-    display: block;
-    margin: 0 auto 10px auto;
+  width: 400px;  /* Más grande, ajusta según lo que desees */
+  max-width: 90%;
+  height: auto;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.trophy-section img:hover {
+  transform: scale(1.08);
+  filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.6));
 }
 
 .trophy-text {
-    font-family: 'Georgia', serif; /* O una fuente cursiva similar a la imagen */
-    font-size: 2.5em;
-    color: #eee;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
-    margin-top: -15px; /* Ajusta para que quede cerca del trofeo */
+  font-size: 32px;
+  font-weight: bold;
+  color: #f0e6d2;
+  margin-top: 16px;
+  text-align: center;
+  font-family: 'Segoe UI', sans-serif;
 }
+
 
 .navigation-tabs {
   display: flex;
@@ -238,4 +249,33 @@
     border-radius: 3px;
     cursor: pointer;
     font-size: 0.9em;
+}
+
+.trophy-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+}
+
+.trophy-img {
+  width: 500px; /* Aumentado para que sea mucho más grande */
+  max-width: 90%; /* Se adapta en pantallas pequeñas */
+  height: auto;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.trophy-img:hover {
+  transform: scale(1.08);
+  filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.6)); /* Sombra dorada más intensa */
+}
+
+.trophy-text {
+  font-size: 32px; /* Texto más grande */
+  font-weight: bold;
+  color: #f0e6d2;
+  margin-top: 16px;
+  text-align: center;
+  font-family: 'Segoe UI', sans-serif;
 }

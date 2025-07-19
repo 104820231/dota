@@ -243,26 +243,25 @@ section {
 /* Asignar animaciones a cada pista */
 .hero-grid-track.track-1 {
   animation-name: slideHeroesLeft;
-  animation-duration: 50s; /* Velocidad diferente */
+  animation-duration: 50s;
 }
 
 .hero-grid-track.track-2 {
   animation-name: slideHeroesRight;
-  animation-duration: 55s; /* Velocidad diferente */
-  animation-delay: -2s; /* Iniciar con un pequeño retraso/adelanto */
+  animation-duration: 55s;
 }
 
 .hero-grid-track.track-3 {
   animation-name: slideHeroesLeft;
   animation-duration: 60s;
-  animation-delay: -1s;
 }
 
 .hero-grid-track.track-4 {
   animation-name: slideHeroesRight;
-  animation-duration: 48s; /* Otra velocidad diferente */
-  animation-delay: -3s;
+  animation-duration: 48s;
 }
+
+
 
 
 .hero-grid-item-home {
@@ -440,4 +439,52 @@ section {
   .section-title {
     font-size: 1.8em;
   }
+}
+
+@keyframes slideLeft {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes slideRight {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+.slide-left {
+  animation: slideLeft 90s linear infinite;
+}
+
+.slide-right {
+  animation: slideRight 90s linear infinite;
+}
+
+.btn-play-link {
+  text-decoration: none;
+}
+
+.btn-play {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 20px;
+  background-color: #1b2838;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: sans-serif;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn-play:hover {
+  background-color: #2a475e;
+  transform: scale(1.05);
+}
+
+.steam-icon {
+  width: 48px; /* puedes ajustar a 64px si quieres más grande */
+  height: auto;
 }

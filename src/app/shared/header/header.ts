@@ -1,7 +1,7 @@
 // src/app/components/header/header.ts
 import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { RouterLink, RouterLinkActive, Router } from '@angular/router'; // Importa Router
 import { AuthService } from '../../services/auth.service';
 import { User } from '@angular/fire/auth';
 import { Subscription } from 'rxjs';
@@ -15,6 +15,7 @@ import { Subscription } from 'rxjs';
 })
 export class Header implements OnInit, OnDestroy {
   private authService: AuthService = inject(AuthService);
+  public router: Router = inject(Router); // Inyecta el Router y lo hace público para usar en el HTML
 
   user: User | null = null;
   private userSubscription: Subscription | undefined;
@@ -29,19 +30,6 @@ export class Header implements OnInit, OnDestroy {
       this.user = user;
       console.log('HeaderComponent: Estado de usuario actualizado:', user ? user.email : 'No logueado');
     });
-  }
-
-  /**
-   * Maneja el clic en el botón "INICIAR SESIÓN".
-   */
-  async onLoginClick(): Promise<void> {
-    console.log('HeaderComponent: onLoginClick llamado.');
-    try {
-      await this.authService.signInWithGoogle();
-      console.log('HeaderComponent: Inicio de sesión exitoso');
-    } catch (error) {
-      console.error('HeaderComponent: Error al iniciar sesión:', error);
-    }
   }
 
   /**

@@ -1,4 +1,5 @@
-<!-- src/app/pages/home/home.html -->
+<!-- src/app/pages/home/home.html (COMPLETO, actualizado y ordenado) -->
+
 <div class="home-container">
   <!-- Video de fondo (Sección 1: Hero Banner) -->
   <video class="background-video" autoplay loop muted playsinline>
@@ -15,19 +16,20 @@
       </div>
 
       <div class="play-button-section">
-        <a href="https://store.steampowered.com/app/570/Dota_2/" target="_blank" class="play-button-link">
-          <button class="play-button">
-            <img src="assets/steam_icon.png" alt="Steam Icon" class="steam-icon">
-            JUEGA GRATIS
-          </button>
-        </a>
+        <a href="https://store.steampowered.com/app/570/Dota_2/" target="_blank" class="btn-play-link">
+  <button class="btn-play">
+    <img src="https://store.fastly.steamstatic.com/public/shared/images/header/logo_steam.svg?t=962016" alt="Steam Icon" class="steam-icon">
+    JUEGA GRATIS
+  </button>
+</a>
+
         <p class="play-subtext">DESCARGAR EN STEAM</p>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Nueva Sección 2: Join the Battle of the Ancients -->
+<!-- Sección 2: Join the Battle of the Ancients -->
 <section class="section-battle-ancients scroll-reveal">
   <div class="section-content-wrapper">
     <h2 class="section-title">ÚNETE A LA BATALLA DE LOS ANCIENTOS</h2>
@@ -40,7 +42,7 @@
   </div>
 </section>
 
-<!-- Nueva Sección 3: Who Will You Choose? -->
+<!-- Sección 3: Who Will You Choose? -->
 <section class="section-who-choose scroll-reveal">
   <div class="section-content-wrapper">
     <h2 class="section-title">¿A QUIÉN ELEGIRÁS?</h2>
@@ -53,46 +55,57 @@
   </div>
 </section>
 
-<!-- Nueva Sección 4: Hero Grid (Deslizante con múltiples filas) -->
+<!-- Sección 4: Hero Grid (Carrusel de 4 filas independientes) -->
 <section class="section-hero-grid scroll-reveal">
   <div class="hero-grid-rows-container">
-    <ng-container *ngIf="allHeroes$ | async as heroes">
-      <!-- Fila 1: Desplazamiento a la izquierda -->
-      <div class="hero-grid-track track-1">
-        <a *ngFor="let hero of heroes" [routerLink]="'/heroes/' + hero.id" class="hero-grid-item-home">
+
+    <!-- Fila 1: izquierda -->
+    <ng-container *ngIf="heroesRow1$ | async as heroes1">
+      <div class="hero-grid-track slide-left">
+        <a *ngFor="let hero of heroes1" [routerLink]="'/heroes/' + hero.id" class="hero-grid-item-home">
           <img [src]="hero.imageUrl" [alt]="hero.name">
         </a>
-        <a *ngFor="let hero of heroes" [routerLink]="'/heroes/' + hero.id" class="hero-grid-item-home">
+        <a *ngFor="let hero of heroes1" [routerLink]="'/heroes/' + hero.id" class="hero-grid-item-home">
           <img [src]="hero.imageUrl" [alt]="hero.name">
         </a>
-      </div> <!-- CORREGIDO: Añadido </div> -->
-      <!-- Fila 2: Desplazamiento a la derecha -->
-      <div class="hero-grid-track track-2">
-        <a *ngFor="let hero of heroes" [routerLink]="'/heroes/' + hero.id" class="hero-grid-item-home">
-          <img [src]="hero.imageUrl" [alt]="hero.name">
-        </a>
-        <a *ngFor="let hero of heroes" [routerLink]="'/heroes/' + hero.id" class="hero-grid-item-home">
-          <img [src]="hero.imageUrl" [alt]="hero.name">
-        </a>
-      </div> <!-- CORREGIDO: Añadido </div> -->
-      <!-- Fila 3: Desplazamiento a la izquierda -->
-      <div class="hero-grid-track track-3">
-        <a *ngFor="let hero of heroes" [routerLink]="'/heroes/' + hero.id" class="hero-grid-item-home">
-          <img [src]="hero.imageUrl" [alt]="hero.name">
-        </a>
-        <a *ngFor="let hero of heroes" [routerLink]="'/heroes/' + hero.id" class="hero-grid-item-home">
-          <img [src]="hero.imageUrl" [alt]="hero.name">
-        </a>
-      </div> <!-- CORREGIDO: Añadido </div> -->
-      <!-- Fila 4: Desplazamiento a la derecha -->
-      <div class="hero-grid-track track-4">
-        <a *ngFor="let hero of heroes" [routerLink]="'/heroes/' + hero.id" class="hero-grid-item-home">
-          <img [src]="hero.imageUrl" [alt]="hero.name">
-        </a>
-        <a *ngFor="let hero of heroes" [routerLink]="'/heroes/' + hero.id" class="hero-grid-item-home">
-          <img [src]="hero.imageUrl" [alt]="hero.name">
-        </a>
-      </div> <!-- CORREGIDO: Añadido </div> -->
+      </div>
     </ng-container>
+
+    <!-- Fila 2: derecha -->
+    <ng-container *ngIf="heroesRow2$ | async as heroes2">
+      <div class="hero-grid-track slide-right">
+        <a *ngFor="let hero of heroes2" [routerLink]="'/heroes/' + hero.id" class="hero-grid-item-home">
+          <img [src]="hero.imageUrl" [alt]="hero.name">
+        </a>
+        <a *ngFor="let hero of heroes2" [routerLink]="'/heroes/' + hero.id" class="hero-grid-item-home">
+          <img [src]="hero.imageUrl" [alt]="hero.name">
+        </a>
+      </div>
+    </ng-container>
+
+    <!-- Fila 3: izquierda -->
+    <ng-container *ngIf="heroesRow3$ | async as heroes3">
+      <div class="hero-grid-track slide-left">
+        <a *ngFor="let hero of heroes3" [routerLink]="'/heroes/' + hero.id" class="hero-grid-item-home">
+          <img [src]="hero.imageUrl" [alt]="hero.name">
+        </a>
+        <a *ngFor="let hero of heroes3" [routerLink]="'/heroes/' + hero.id" class="hero-grid-item-home">
+          <img [src]="hero.imageUrl" [alt]="hero.name">
+        </a>
+      </div>
+    </ng-container>
+
+    <!-- Fila 4: derecha -->
+    <ng-container *ngIf="heroesRow4$ | async as heroes4">
+      <div class="hero-grid-track slide-right">
+        <a *ngFor="let hero of heroes4" [routerLink]="'/heroes/' + hero.id" class="hero-grid-item-home">
+          <img [src]="hero.imageUrl" [alt]="hero.name">
+        </a>
+        <a *ngFor="let hero of heroes4" [routerLink]="'/heroes/' + hero.id" class="hero-grid-item-home">
+          <img [src]="hero.imageUrl" [alt]="hero.name">
+        </a>
+      </div>
+    </ng-container>
+
   </div>
 </section>

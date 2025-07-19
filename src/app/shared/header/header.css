@@ -185,7 +185,7 @@
     width: 100%; /* Ocupa todo el ancho */
   }
 
-  .header-nav .nav-list {
+  .nav-list {
     flex-direction: column; /* Apila los ítems de navegación */
     align-items: center;
     gap: 10px;
@@ -195,7 +195,6 @@
     margin-top: 10px;
     width: 100%;
     justify-content: center; /* Centra los botones */
-    gap: 10px; /* Ajusta el espacio entre botones en móvil */
   }
 
   .dropdown-menu {

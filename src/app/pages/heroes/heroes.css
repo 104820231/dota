@@ -166,7 +166,9 @@ h1 {
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Cubre el área sin distorsión */
+  object-fit: contain;
+background: black; /* Opcional, para que los bordes vacíos sean negros */
+ /* Cubre el área sin distorsión */
   z-index: 0; /* Asegura que esté en el fondo */
   /* Animación de desplazamiento del video */
   animation: slideBackground 30s linear infinite alternate; /* Desplazamiento lento */

@@ -1,39 +1,60 @@
 // src/app/pages/home/home.ts
 import { Component, OnInit, OnDestroy, AfterViewInit, inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { RouterLink } from '@angular/router'; // Para los enlaces a /heroes
+import { RouterLink } from '@angular/router';
 import { HeroService } from '../../services/hero';
-import { Hero } from '../../models/hero.model'; // Importar el modelo Hero
-import { Observable, Subscription } from 'rxjs'; // Importar Observable y Subscription
+import { Hero } from '../../models/hero.model';
+import { Observable, Subscription } from 'rxjs';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterLink], // Asegúrate de importar RouterLink
+  imports: [CommonModule, RouterLink],
   templateUrl: './home.html',
   styleUrls: ['./home.css']
 })
 export class Home implements OnInit, AfterViewInit, OnDestroy {
   private observers: IntersectionObserver[] = [];
-  private platformId: Object = inject(PLATFORM_ID); // Inyecta PLATFORM_ID
-  private heroService: HeroService = inject(HeroService); // Inyecta HeroService
+  private platformId: Object = inject(PLATFORM_ID);
+  private heroService: HeroService = inject(HeroService);
 
-  allHeroes$: Observable<Hero[]> | undefined; // Observable para todos los héroes
-  private heroesSubscription: Subscription | undefined;
+heroesRow1$: Observable<Hero[]> | undefined;
+heroesRow2$: Observable<Hero[]> | undefined;
+heroesRow3$: Observable<Hero[]> | undefined;
+heroesRow4$: Observable<Hero[]> | undefined;
 
 
   constructor() { }
 
   ngOnInit(): void {
-    // Obtener todos los héroes al inicializar el componente
-    this.allHeroes$ = this.heroService.getAllHeroes();
+    this.heroesRow1$ = this.heroService.getAllHeroes().pipe(
+      map(heroes => this.shuffleArray([...heroes]).slice(0, 30))
+    );
+    this.heroesRow2$ = this.heroService.getAllHeroes().pipe(
+      map(heroes => this.shuffleArray([...heroes]).slice(30, 60))
+    );
+    this.heroesRow3$ = this.heroService.getAllHeroes().pipe(
+      map(heroes => this.shuffleArray([...heroes]).slice(60, 90))
+    );
+    this.heroesRow4$ = this.heroService.getAllHeroes().pipe(
+      map(heroes => this.shuffleArray([...heroes]).slice(90, 120))
+    );
   }
 
   ngAfterViewInit(): void {
-    // Solo configura los observadores si estamos en un navegador
     if (isPlatformBrowser(this.platformId)) {
       this.setupScrollReveal();
     }
+  }
+
+  private shuffleArray(array: Hero[]): Hero[] {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
   }
 
   private setupScrollReveal(): void {
@@ -44,31 +65,18 @@ export class Home implements OnInit, AfterViewInit, OnDestroy {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             entry.target.classList.add('active');
-            // Opcional: Desconectar el observador una vez que el elemento es visible
-            // observer.unobserve(entry.target);
-          } else {
-            // Opcional: Quitar la clase 'active' si el elemento sale de la vista
-            // entry.target.classList.remove('active');
           }
         });
-      }, {
-        threshold: 0.2 // El elemento es visible cuando el 20% de él está en la vista
-      });
+      }, { threshold: 0.2 });
 
       observer.observe(el);
-      this.observers.push(observer); // Guarda el observador para limpiarlo después
+      this.observers.push(observer);
     });
   }
 
   ngOnDestroy(): void {
-    // Desconecta todos los observadores para evitar fugas de memoria
-    // Solo desconecta si estamos en un navegador
     if (isPlatformBrowser(this.platformId)) {
       this.observers.forEach(observer => observer.disconnect());
-    }
-    // Desuscribirse del observable de héroes para evitar fugas de memoria
-    if (this.heroesSubscription) {
-      this.heroesSubscription.unsubscribe();
     }
   }
 }
