@@ -1,6 +1,7 @@
 //src/app/app.routes.ts
 import { Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth-guard'; // Importa tu AuthGuard
+import { NotFound } from './pages/not-found';
 
 export const routes: Routes = [
   {
@@ -52,6 +53,8 @@ export const routes: Routes = [
   },
   // Ruta por defecto o 404 (opcional)
   {
-    path: '**', redirectTo: '', pathMatch: 'full'
-  }
+  path: '**',
+  loadComponent: () => import('./pages/not-found').then(m => m.NotFound)
+}
+  
 ];
