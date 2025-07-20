@@ -1,57 +1,74 @@
 // src/app/pages/news/news.ts
+
 import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms'; // Necesario para ngModel en formularios de plantilla
+import { FormsModule } from '@angular/forms';
+
 import { HeroGuideService } from '../../services/hero-guide';
-import { HeroGuide } from '../../models/hero-guide.model'; // Importa la interfaz del modelo
-import { AuthService } from '../../services/auth.service'; // Importa el servicio de autenticación
+import { HeroGuide } from '../../models/hero-guide.model';
+import { AuthService } from '../../services/auth.service';
 import { Hero } from '../../models/hero.model';
 import { HeroService } from '../../services/hero';
-import { User } from '@angular/fire/auth'; // Tipo de usuario de Firebase
+
+import { ItemService } from '../../services/item.service';
+import { Item } from '../../models/item.model';
+
+import { ItemSelectorModal } from '../../components/item-selector-modal/item-selector-modal';
+
+import { User } from '@angular/fire/auth';
 import { Subscription, Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators'; // Para transformar observables
 
 @Component({
   selector: 'app-news',
   standalone: true,
-  imports: [CommonModule, FormsModule], // Asegúrate de incluir FormsModule
+  imports: [CommonModule, FormsModule, ItemSelectorModal],
   templateUrl: './news.html',
   styleUrls: ['./news.css']
 })
 export class News implements OnInit, OnDestroy {
-  // Inyección de servicios
+  // Servicios inyectados
   private heroGuideService: HeroGuideService = inject(HeroGuideService);
   private authService: AuthService = inject(AuthService);
-  private heroService: HeroService = inject(HeroService); // <-- ¡Inyecta HeroService!
+  private heroService: HeroService = inject(HeroService);
+  private itemService: ItemService = inject(ItemService);
 
-  user: User | null = null; // Almacena la información del usuario actual (logueado)
+  // Usuario actual
+  user: User | null = null;
   private userSubscription: Subscription | undefined;
 
-  allHeroGuides$: Observable<HeroGuide[]>; // Observable que contendrá todas las guías de héroes de Firestore
+  // Datos generales
+  allHeroGuides$: Observable<HeroGuide[]>;
   userHeroGuides$: Observable<HeroGuide[]>;
+  heroes: Hero[] = [];
+  selectedHeroId: string | null = null;
 
-  heroes: Hero[] = []; // <-- Lista de héroes para el desplegable en el formulario
-  selectedHeroId: string | null = null; // <-- ID del héroe seleccionado en el formulario
+  // Ítems
+  allItems: Item[] = [];
 
-  // Modelo para el formulario de creación de guía
-  // Omitimos 'id', 'creatorId', 'creatorEmail', 'createdAt', 'updatedAt',
-  // 'selectedHeroId', 'selectedHeroIconPath', 'heroName' porque se añadirán en onCreateGuide.
-  newGuide: {
-    guideTitle: string;
-    guideDescription: string;
-    earlyGameItems: string;
-    midGameItems: string;
-    lateGameItems: string;
-  } = {
-    guideTitle: '',
-    guideDescription: '',
-    earlyGameItems: '',
-    midGameItems: '',
-    lateGameItems: ''
-  };
+  // Modales
+  showEarlyModal = false;
+  showMidModal = false;
+  showLateModal = false;
+
+  // Estado del formulario
   showCreateForm = false;
   formMessage: string | null = null;
   isLoadingForm = false;
+
+  // Modelo del formulario actualizado: arrays de IDs de ítems
+  newGuide: {
+    guideTitle: string;
+    guideDescription: string;
+    earlyGameItems: string[];
+    midGameItems: string[];
+    lateGameItems: string[];
+  } = {
+    guideTitle: '',
+    guideDescription: '',
+    earlyGameItems: [],
+    midGameItems: [],
+    lateGameItems: []
+  };
 
   constructor() {
     this.allHeroGuides$ = this.heroGuideService.getAllHeroGuides();
@@ -59,24 +76,27 @@ export class News implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // Carga la lista de héroes al inicializar el componente
+    // Cargar héroes
     this.heroService.getAllHeroes().subscribe((heroes: Hero[]) => {
       this.heroes = heroes;
     });
 
-    // Suscribe al estado de autenticación del usuario
+    // Cargar ítems
+    this.itemService.getAllItems().subscribe((items: Item[]) => {
+      this.allItems = items;
+    });
+
+    // Suscribirse al usuario
     this.userSubscription = this.authService.user$.subscribe(user => {
       this.user = user;
-      if (this.user) {
-        this.userHeroGuides$ = this.heroGuideService.getHeroGuidesByCreator(this.user.uid);
-      } else {
-        this.userHeroGuides$ = of([]);
-      }
+      this.userHeroGuides$ = user
+        ? this.heroGuideService.getHeroGuidesByCreator(user.uid)
+        : of([]);
     });
   }
 
   /**
-   * Maneja el envío del formulario de creación de guía.
+   * Crear guía.
    */
   async onCreateGuide(): Promise<void> {
     this.isLoadingForm = true;
@@ -88,14 +108,28 @@ export class News implements OnInit, OnDestroy {
       return;
     }
 
-    // Validación: Asegura que todos los campos necesarios estén llenos
     if (!this.newGuide.guideTitle || !this.selectedHeroId) {
       this.formMessage = 'El título de la guía y la selección del héroe son obligatorios.';
       this.isLoadingForm = false;
       return;
     }
 
-    // Encuentra el héroe seleccionado para obtener su nombre y ruta de icono
+    if (!this.newGuide.earlyGameItems || this.newGuide.earlyGameItems.length === 0) {
+      this.formMessage = 'Debes seleccionar al menos un ítem en la fase temprana.';
+      this.isLoadingForm = false;
+      return;
+    }
+    if (!this.newGuide.midGameItems || this.newGuide.midGameItems.length === 0) {
+      this.formMessage = 'Debes seleccionar al menos un ítem en la fase media.';
+      this.isLoadingForm = false;
+      return;
+    }
+    if (!this.newGuide.lateGameItems || this.newGuide.lateGameItems.length === 0) {
+      this.formMessage = 'Debes seleccionar al menos un ítem en la fase final.';
+      this.isLoadingForm = false;
+      return;
+    }
+
     const selectedHero = this.heroes.find(hero => hero.id === this.selectedHeroId);
 
     if (!selectedHero) {
@@ -105,12 +139,15 @@ export class News implements OnInit, OnDestroy {
     }
 
     try {
-      // Prepara el objeto de la guía con los datos del formulario y del creador
       const guideToCreate: Omit<HeroGuide, 'id' | 'createdAt' | 'updatedAt'> = {
-        ...this.newGuide, // Copia los datos del formulario (título, descripción, items)
-        heroName: selectedHero.name, // <-- Usa el nombre del héroe seleccionado
-        selectedHeroId: selectedHero.id, // <-- Guarda el ID del héroe
-        selectedHeroIconPath: selectedHero.imageUrl, // <-- Usa imageUrl de Hero como iconPath
+        guideTitle: this.newGuide.guideTitle,
+        guideDescription: this.newGuide.guideDescription,
+        earlyGameItems: this.newGuide.earlyGameItems,
+        midGameItems: this.newGuide.midGameItems,
+        lateGameItems: this.newGuide.lateGameItems,
+        heroName: selectedHero.name,
+        selectedHeroId: selectedHero.id,
+        selectedHeroIconPath: selectedHero.imageUrl,
         creatorId: this.user.uid,
         creatorEmail: this.user.email || 'N/A'
       };
@@ -125,12 +162,29 @@ export class News implements OnInit, OnDestroy {
     } finally {
       this.isLoadingForm = false;
     }
+}
+
+  /**
+   * Recibe los ítems seleccionados desde el modal.
+   */
+  onItemsSelected(phase: 'early' | 'mid' | 'late', selected: string[]): void {
+    if (phase === 'early') this.newGuide.earlyGameItems = selected;
+    if (phase === 'mid') this.newGuide.midGameItems = selected;
+    if (phase === 'late') this.newGuide.lateGameItems = selected;
   }
 
   /**
-   * Método para eliminar una guía de héroe.
-   * Muestra una confirmación antes de eliminar.
-   * @param guideId El ID de la guía a eliminar.
+   * Devuelve el nombre del ítem por ID.
+   */
+  getItemName(id: string): string {
+    const item = this.allItems.find(i => i.id === id);
+    return item ? item.name : id;
+  }
+getItemImageUrl(itemId: string): string | undefined {
+  return this.allItems.find(i => i.id === itemId)?.imageUrl;
+}
+  /**
+   * Elimina una guía.
    */
   async onDeleteGuide(guideId: string): Promise<void> {
     if (confirm('¿Estás seguro de que quieres eliminar esta guía?')) {
@@ -145,22 +199,20 @@ export class News implements OnInit, OnDestroy {
   }
 
   /**
-   * Resetea los campos del formulario de creación de guía.
+   * Resetea el formulario.
    */
   private resetForm(): void {
     this.newGuide = {
       guideTitle: '',
       guideDescription: '',
-      earlyGameItems: '',
-      midGameItems: '',
-      lateGameItems: ''
+      earlyGameItems: [],
+      midGameItems: [],
+      lateGameItems: []
     };
-    this.selectedHeroId = null; // Resetea también la selección del héroe
+    this.selectedHeroId = null;
   }
 
   ngOnDestroy(): void {
-    if (this.userSubscription) {
-      this.userSubscription.unsubscribe();
-    }
+    this.userSubscription?.unsubscribe();
   }
 }

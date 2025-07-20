@@ -6,9 +6,9 @@ export interface HeroGuide {
   heroName: string; // Nombre del héroe al que se refiere la guía (se derivará de selectedHero)
   guideTitle: string;
   guideDescription: string;
-  earlyGameItems: string;
-  midGameItems: string;
-  lateGameItems: string;
+  earlyGameItems: string[];    // ✅ CAMBIAR a arreglo de strings
+  midGameItems: string[];      // ✅ CAMBIAR a arreglo de strings
+  lateGameItems: string[];     // ✅ CAMBIAR a arreglo de strings
   creatorId: string; // ID del usuario que creó la guía
   creatorEmail: string; // Email del usuario que creó la guía
   createdAt: Timestamp;
