@@ -2,7 +2,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import { Header } from './shared/header/header'; // Asegúrate de que la ruta sea correcta
+import { Header } from './shared/header/header';
 
 @Component({
   selector: 'app-root',
@@ -16,6 +16,6 @@ import { Header } from './shared/header/header'; // Asegúrate de que la ruta se
   `,
   styleUrls: ['./app.component.css']
 })
-export class AppComponent { // <--- ¡Asegúrate de que se llama AppComponent!
+export class AppComponent {
   title = 'pagina-dota';
 }

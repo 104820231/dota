@@ -246,3 +246,7 @@ Este proyecto está licenciado bajo la MIT License. Consulta el archivo `LICENSE
 * Ubicación: Andahuaylas, Perú
 
 **Desarrollado con pasión por Dota y tecnología ❤️**
+
+
+**link del video**
+**https://www.youtube.com/watch?v=GSzViTc-e60**
