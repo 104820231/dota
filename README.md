@@ -39,79 +39,79 @@ Aquí te presento la estructura de directorios actual de tu proyecto `pagina-dot
 ```
 pagina-dota/
 ├── src/
-│   ├── app/
-│   │   ├── components/             # Componentes reutilizables (ej. item-selector-modal)
-│   │   │   └── item-selector-modal/
-│   │   │       ├── item-selector-modal.component.html
-│   │   │       ├── item-selector-modal.component.css
-│   │   │       └── item-selector-modal.component.ts
-│   │   ├── guards/                 # Guardias de ruta (ej. auth-guard)
-│   │   │   └── auth-guard.ts
-│   │   ├── models/                 # Modelos de datos (Héroes, Ítems, Guías)
-│   │   │   ├── hero.model.ts
-│   │   │   ├── item.model.ts
-│   │   │   └── hero-guide.model.ts
-│   │   ├── pages/                  # Componentes de página principales
-│   │   │   ├── auth/               # Página de autenticación (login/registro)
-│   │   │   │   ├── auth.html
-│   │   │   │   ├── auth.css
-│   │   │   │   └── auth.ts
-│   │   │   ├── heroes/             # Página de héroes (lista y detalle)
-│   │   │   │   ├── heroes.html
-│   │   │   │   ├── heroes.css
-│   │   │   │   └── heroes.ts
-│   │   │   ├── home/               # Página de inicio
-│   │   │   │   ├── home.html
-│   │   │   │   ├── home.css
-│   │   │   │   └── home.ts
-│   │   │   ├── news/               # Página de noticias
-│   │   │   │   ├── news.html
-│   │   │   │   ├── news.css
-│   │   │   │   └── news.ts
-│   │   │   ├── esports/            # Página de e-sports
-│   │   │   │   ├── esports.html
-│   │   │   │   ├── esports.css
-│   │   │   │   └── esports.ts
-│   │   │   ├── patches/            # Página de parches
-│   │   │   │   ├── patches.html
-│   │   │   │   ├── patches.css
-│   │   │   │   └── patches.ts
-│   │   │   └── game-updates/       # Página de actualizaciones del juego
-│   │   │       ├── game-updates.html
-│   │   │       ├── game-updates.css
-│   │   │       └── game-updates.ts
-│   │   ├── services/               # Servicios de la aplicación
-│   │   │   ├── auth.service.ts     # Servicio de autenticación
-│   │   │   ├── hero.service.ts     # Servicio para obtener datos de héroes
-│   │   │   ├── item.service.ts     # Servicio para obtener datos de ítems
-│   │   │   └── hero-guide.service.ts # Servicio para guías de héroes
-│   │   ├── shared/                 # Componentes compartidos (layout, UI)
-│   │   │   ├── header/             # Encabezado de la aplicación
-│   │   │   │   ├── header.html
-│   │   │   │   ├── header.css
-│   │   │   │   └── header.ts
-│   │   │   └── footer/             # Pie de página de la aplicación
-│   │   │       ├── footer.html
-│   │   │       ├── footer.css
-│   │   │       └── footer.ts
-│   │   ├── firebase.ts             # Configuración e inicialización de Firebase
-│   │   ├── app.config.ts           # Configuración principal de la aplicación (proveedores)
-│   │   ├── app.routes.ts           # Definición de las rutas de la aplicación
-│   │   └── app.ts                  # Componente raíz de la aplicación (AppComponent)
-│   ├── assets/                     # Recursos estáticos (imágenes, iconos, etc.)
-│   │   └── steam_icon.png
-│   ├── environments/               # Configuraciones de entorno (ej. development, production)
-│   │   ├── environment.ts
-│   │   └── environment.prod.ts
-│   └── styles.css                  # Estilos globales de la aplicación
-├── public/                         # Archivos públicos que se sirven directamente (ej. index.html)
-│   └── index.html
-├── angular.json                    # Archivo de configuración principal de Angular CLI
-├── package.json                    # Dependencias del proyecto y scripts
-├── package-lock.json               # Bloqueo de versiones de dependencias
-├── tsconfig.json                   # Configuración de TypeScript
-├── tsconfig.app.json               # Configuración de TypeScript para la aplicación
-└── tsconfig.spec.json              # Configuración de TypeScript para pruebas
+│   ├── app/
+│   │   ├── components/             # Componentes reutilizables (ej. item-selector-modal)
+│   │   │   └── item-selector-modal/
+│   │   │       ├── item-selector-modal.component.html
+│   │   │       ├── item-selector-modal.component.css
+│   │   │       └── item-selector-modal.component.ts
+│   │   ├── guards/                 # Guardias de ruta (ej. auth-guard)
+│   │   │   └── auth-guard.ts
+│   │   ├── models/                 # Modelos de datos (Héroes, Ítems, Guías)
+│   │   │   ├── hero.model.ts
+│   │   │   ├── item.model.ts
+│   │   │   └── hero-guide.model.ts
+│   │   ├── pages/                  # Componentes de página principales
+│   │   │   ├── auth/               # Página de autenticación (login/registro)
+│   │   │   │   ├── auth.html
+│   │   │   │   ├── auth.css
+│   │   │   │   └── auth.ts
+│   │   │   ├── heroes/             # Página de héroes (lista y detalle)
+│   │   │   │   ├── heroes.html
+│   │   │   │   ├── heroes.css
+│   │   │   │   └── heroes.ts
+│   │   │   ├── home/               # Página de inicio
+│   │   │   │   ├── home.html
+│   │   │   │   ├── home.css
+│   │   │   │   └── home.ts
+│   │   │   ├── news/               # Página de noticias
+│   │   │   │   ├── news.html
+│   │   │   │   ├── news.css
+│   │   │   │   └── news.ts
+│   │   │   ├── esports/            # Página de e-sports
+│   │   │   │   ├── esports.html
+│   │   │   │   ├── esports.css
+│   │   │   │   └── esports.ts
+│   │   │   ├── patches/            # Página de parches
+│   │   │   │   ├── patches.html
+│   │   │   │   ├── patches.css
+│   │   │   │   └── patches.ts
+│   │   │   └── game-updates/       # Página de actualizaciones del juego
+│   │   │       ├── game-updates.html
+│   │   │       ├── game-updates.css
+│   │   │       └── game-updates.ts
+│   │   ├── services/               # Servicios de la aplicación
+│   │   │   ├── auth.service.ts     # Servicio de autenticación
+│   │   │   ├── hero.service.ts     # Servicio para obtener datos de héroes
+│   │   │   ├── item.service.ts     # Servicio para obtener datos de ítems
+│   │   │   └── hero-guide.service.ts # Servicio para guías de héroes
+│   │   ├── shared/                 # Componentes compartidos (layout, UI)
+│   │   │   ├── header/             # Encabezado de la aplicación
+│   │   │   │   ├── header.html
+│   │   │   │   ├── header.css
+│   │   │   │   └── header.ts
+│   │   │   └── footer/             # Pie de página de la aplicación
+│   │   │       ├── footer.html
+│   │   │       ├── footer.css
+│   │   │       └── footer.ts
+│   │   ├── firebase.ts             # Configuración e inicialización de Firebase
+│   │   ├── app.config.ts           # Configuración principal de la aplicación (proveedores)
+│   │   ├── app.routes.ts           # Definición de las rutas de la aplicación
+│   │   └── app.ts                  # Componente raíz de la aplicación (AppComponent)
+│   ├── assets/                     # Recursos estáticos (imágenes, iconos, etc.)
+│   │   └── steam_icon.png
+│   ├── environments/               # Configuraciones de entorno (ej. development, production)
+│   │   ├── environment.ts
+│   │   └── environment.prod.ts
+│   └── styles.css                  # Estilos globales de la aplicación
+├── public/                         # Archivos públicos que se sirven directamente (ej. index.html)
+│   └── index.html
+├── angular.json                    # Archivo de configuración principal de Angular CLI
+├── package.json                    # Dependencias del proyecto y scripts
+├── package-lock.json               # Bloqueo de versiones de dependencias
+├── tsconfig.json                   # Configuración de TypeScript
+├── tsconfig.app.json               # Configuración de TypeScript para la aplicación
+└── tsconfig.spec.json              # Configuración de TypeScript para pruebas
 
 ```
 
@@ -128,12 +128,12 @@ pagina-dota/
 ## 🌐 Rutas Principales
 
 ```
-- /auth           - Login y registro
-- /heroes         - Guías de héroes (y detalle de héroe)
-- /news           - Noticias y guías de héroes
-- /esports        - Sección de esports
-- /patches        - Noticias de parches
-- /game-updates   - Actualizaciones del juego
+- /auth           - Login y registro
+- /heroes         - Guías de héroes (y detalle de héroe)
+- /news           - Noticias y guías de héroes
+- /esports        - Sección de esports
+- /patches        - Noticias de parches
+- /game-updates   - Actualizaciones del juego
 
 ```
 
@@ -142,10 +142,11 @@ pagina-dota/
 ### Requisitos Previos
 
 ```
-# Versiones recomendadas para Angular 17.x
-Angular CLI: ~17.x.x
-Node: ~18.x.x o ~20.x.x
-
+# Versiones 
+Angular CLI: 20.0.4
+Node: 22.15.1 
+Package Manager: npm 10.9.2
+OS: win32 x64
 ```
 
 ### Instalación
@@ -241,12 +242,18 @@ Este proyecto está licenciado bajo la MIT License. Consulta el archivo `LICENSE
 
 ## 📬 Contacto
 
-* Email: contactodota@app.com
+* **Nombre**: ROYER FREDERICK RODAS ALHUAY
+* **Email**: 1004820231@unajma.edu.pe
+* **Ubicación**: Andahuaylas, Perú
 
-* Ubicación: Andahuaylas, Perú
+---
+
+## 🎥 Video Demostrativo
+
+Puedes ver una demostración completa de la aplicación en funcionamiento aquí:
+
+📹 [https://www.youtube.com/watch?v=GSzViTc-e60](https://www.youtube.com/watch?v=GSzViTc-e60)
+
+---
 
 **Desarrollado con pasión por Dota y tecnología ❤️**
-
-
-**link del video**
-**https://www.youtube.com/watch?v=GSzViTc-e60**
